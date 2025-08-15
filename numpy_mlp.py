@@ -11,16 +11,16 @@ class MLP ():
     #output layer is
     def __init__(self, input_dim=2304, n_layers=2, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
-        """
+        
         self.n_layers = n_layers
         self.layers = []
         for i in range (n_layers):
-            in_dim = hidden_dim.copy()
-            out_dim = hidden_dim.copy()
+            in_dim = hidden_dim
+            out_dim = hidden_dim
             if i == 0:
-                in_dim = input_dim.copy()
+                in_dim = input_dim
             elif (i+1) == n_layers:
-                out_dim = n_classes.copy()
+                out_dim = n_classes
 
             current_layer = rng.normal(
                 #mean
@@ -43,7 +43,7 @@ class MLP ():
             scale=0.2,       
             size=(hidden_dim, n_classes)
         ).astype(np.float32)
-       
+        """
 
     def ReLU (self, x):
         x = np.asarray(x)
@@ -54,22 +54,26 @@ class MLP ():
         return np.exp(logits) / softmax_denominator, softmax_denominator
 
     def forward(self, inputs, target_value=None):
-        logits = inputs.copy()
-        """
+        hidden_layer_activations = []
+        #layer_activations.append(inputs.copy())
+     
+        
         for i in range(self.n_layers):
             #ReLU activations in all the layers but the last
-            if (i+1) < self.n_layers:
-                logits = self.ReLU(logits @ self.layers[i])
+            if i == 0:
+                hidden_layer_activations.append(self.ReLU(inputs @ self.layers[i]))
+            elif (i+1) < self.n_layers:
+                hidden_layer_activations.append(self.ReLU(hidden_layer_activations[i-1] @ self.layers[i]))
             #no activation function applied so far
             #in the last layer
             #softmax will be applied to the output 
             #of the last layer later if necessary
             else:
-                logits = logits @ self.layers[i]
+                logits = hidden_layer_activations[i-1] @ self.layers[i]
         """
         hidden_activations = self.ReLU(inputs @ self.layer1)
         logits = hidden_activations @ self.layer2
-
+        """
         #if no target value is passed to the model.forward
         #then the model is in the inference mode
         #no logit/output normalization/softmax is necessary
@@ -85,7 +89,7 @@ class MLP ():
         #CEL/cross-entropy loss
         else:
             #this is softmax
-            #softmax denominator is outputted by softmax 
+            #softmax denominator is returned by softmax 
             #on top of normalized logits to be
             #reused in computing CEL
             normalized_logits, softmax_denom = self._get_normalized_logits_with_softmax_denom(logits)
@@ -99,13 +103,29 @@ class MLP ():
             d_softmax = normalized_logits
             d_softmax[target_value] -= 1
 
-
             #this computes gradients of layer params
-            dW2 = np.outer(hidden_activations, d_softmax)
-            relu_grad = (hidden_activations > 0).astype(float)
-            dW1 = np.outer(inputs, (self.layer2 @ d_softmax)*relu_grad)
+
+            #initialize an list with as many empty
+            #elements as there are hidden layers
+            #i.e. param matrices
+            layer_gradients = [None] * self.n_layers
+
+            for i in range(self.n_layers-1, -1, -1):
+                if i == (self.n_layers-1):
+                    layer_gradients[i] = np.outer(hidden_layer_activations[i-1], d_softmax)
+                elif i == 0:
+                    relu_grad = (hidden_layer_activations[0]>0).astype(float)
+                    layer_gradients[i] = np.outer(inputs, (self.layers[i+1] @ d_softmax)*relu_grad)  
+
+            return CEL_value, layer_gradients
+            #d_W2 = np.outer(hidden_layer_activations[0], d_softmax)
+            #relu_grad = (hidden_layer_activations[0]>0).astype(float)
+            #d_W1 = np.outer(inputs, (self.layers[1] @ d_softmax)*relu_grad)
+            #dW2 = np.outer(hidden_activations, d_softmax)
+            #relu_grad = (hidden_activations > 0).astype(float)
+            #dW1 = np.outer(inputs, (self.layer2 @ d_softmax)*relu_grad)
             
-            return CEL_value, dW2, dW1
+            #return CEL_value, d_W2, d_W1
 
 
 def train_model_with_SGD (model, 
@@ -127,11 +147,16 @@ def train_model_with_SGD (model,
         for x,y in training_set:
 
             #get the CEL gradient from the forward pass directly
-            loss, dW2, dW1 = model.forward(x, y)
+            #loss, dW2, dW1 = model.forward(x, y)
+            loss, layer_grads = model.forward(x, y)
          
             #do SGD step
-            model.layer1 -= lr*dW1
-            model.layer2 -= lr*dW2
+            model.layers[0] -= lr*layer_grads[0]
+            model.layers[1] -= lr*layer_grads[1]
+            #model.layers[0] -= lr*dW1
+            #model.layers[1] -= lr*dW2
+            #model.layer1 -= lr*dW1
+            #model.layer2 -= lr*dW2
 
             total_loss += loss
           
