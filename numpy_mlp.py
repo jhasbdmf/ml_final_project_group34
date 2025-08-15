@@ -103,13 +103,14 @@ class MLP ():
             d_softmax = normalized_logits
             d_softmax[target_value] -= 1
 
-            #this computes gradients of layer params
+            
 
             #initialize an list with as many empty
             #elements as there are hidden layers
             #i.e. param matrices
             layer_gradients = [None] * self.n_layers
 
+            #this computes gradients of layer params
             for i in range(self.n_layers-1, -1, -1):
                 if i == (self.n_layers-1):
                     layer_gradients[i] = np.outer(hidden_layer_activations[i-1], d_softmax)
@@ -151,8 +152,11 @@ def train_model_with_SGD (model,
             loss, layer_grads = model.forward(x, y)
          
             #do SGD step
-            model.layers[0] -= lr*layer_grads[0]
-            model.layers[1] -= lr*layer_grads[1]
+
+            for i in range(model.n_layers):
+                model.layers[i] -= lr*layer_grads[i]
+            #model.layers[0] -= lr*layer_grads[0]
+            #model.layers[1] -= lr*layer_grads[1]
             #model.layers[0] -= lr*dW1
             #model.layers[1] -= lr*dW2
             #model.layer1 -= lr*dW1
