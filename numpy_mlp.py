@@ -7,8 +7,30 @@ def z_normalize_images(images):
     return (images - mean) / (std + eps)
 
 class MLP ():
-    def __init__(self, input_dim=2304, hidden_dim=32, num_classes=7):
+    #input layer is not counted in n_layers
+    #output layer is
+    def __init__(self, input_dim=2304, n_layers=2, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
+        """
+        self.n_layers = n_layers
+        self.layers = []
+        for i in range (n_layers):
+            in_dim = hidden_dim.copy()
+            out_dim = hidden_dim.copy()
+            if i == 0:
+                in_dim = input_dim.copy()
+            elif (i+1) == n_layers:
+                out_dim = n_classes.copy()
+
+            current_layer = rng.normal(
+                #mean
+                loc=0.0,      
+                #standard deviation
+                scale=0.2,        
+                size=(in_dim, out_dim)
+            ).astype(np.float32)
+            self.layers.append (current_layer)
+        """
         self.layer1 = rng.normal(
             #mean
             loc=0.0,      
@@ -19,8 +41,9 @@ class MLP ():
         self.layer2 = rng.normal(
             loc=0.0,          
             scale=0.2,       
-            size=(hidden_dim, num_classes)
+            size=(hidden_dim, n_classes)
         ).astype(np.float32)
+       
 
     def ReLU (self, x):
         x = np.asarray(x)
@@ -31,21 +54,56 @@ class MLP ():
         return np.exp(logits) / softmax_denominator, softmax_denominator
 
     def forward(self, inputs, target_value=None):
+        logits = inputs.copy()
+        """
+        for i in range(self.n_layers):
+            #ReLU activations in all the layers but the last
+            if (i+1) < self.n_layers:
+                logits = self.ReLU(logits @ self.layers[i])
+            #no activation function applied so far
+            #in the last layer
+            #softmax will be applied to the output 
+            #of the last layer later if necessary
+            else:
+                logits = logits @ self.layers[i]
+        """
         hidden_activations = self.ReLU(inputs @ self.layer1)
         logits = hidden_activations @ self.layer2
 
+        #if no target value is passed to the model.forward
+        #then the model is in the inference mode
+        #no logit/output normalization/softmax is necessary
+        #in the inference mode
+        #since one can base model prediction on the highest
+        #unnormalized/unsoftmaxed logit
         if target_value == None:
             return logits
+        #if a target value is passed to model.forward
+        #then the model is in the training mode
+        #one needs to do softmax on the inputs
+        #to pass softmaxed logits into 
+        #CEL/cross-entropy loss
         else:
+            #this is softmax
+            #softmax denominator is outputted by softmax 
+            #on top of normalized logits to be
+            #reused in computing CEL
             normalized_logits, softmax_denom = self._get_normalized_logits_with_softmax_denom(logits)
 
+            
+            #CEL is equal to -ln(exp(logits[target_value])/softmax_denom))
+            #the formula below is algebraically equivalent to the one above
             CEL_value = -logits[target_value] + np.log(softmax_denom)
 
-            normalized_logits[target_value] -= 1
+            #this one is the gradient of CEL
+            d_softmax = normalized_logits
+            d_softmax[target_value] -= 1
 
-            dW2 = np.outer(hidden_activations, normalized_logits)
+
+            #this computes gradients of layer params
+            dW2 = np.outer(hidden_activations, d_softmax)
             relu_grad = (hidden_activations > 0).astype(float)
-            dW1 = np.outer(inputs, (self.layer2 @ normalized_logits)*relu_grad)
+            dW1 = np.outer(inputs, (self.layer2 @ d_softmax)*relu_grad)
             
             return CEL_value, dW2, dW1
 
@@ -71,11 +129,13 @@ def train_model_with_SGD (model,
             #get the CEL gradient from the forward pass directly
             loss, dW2, dW1 = model.forward(x, y)
          
+            #do SGD step
             model.layer1 -= lr*dW1
             model.layer2 -= lr*dW2
+
             total_loss += loss
           
-   
+        #decrease lr each epoch
         lr *= sgd_lr_multiplier
         
         
