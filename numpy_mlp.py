@@ -100,6 +100,7 @@ class MLP ():
             CEL_value = -logits[target_value] + np.log(softmax_denom)
 
             #this one is the gradient of CEL
+            #d_softmax = normalized_logits.copy()
             d_softmax = normalized_logits
             d_softmax[target_value] -= 1
 
@@ -110,24 +111,24 @@ class MLP ():
             #i.e. param matrices
             layer_gradients = [None] * self.n_layers
 
+
             #this computes gradients of layer params
+            
             for i in range(self.n_layers-1, -1, -1):
+                #output softmax layer
                 if i == (self.n_layers-1):
                     dynamic_gradient = d_softmax
                     layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
-                
-                elif i == 0:
-                    dynamic_gradient = self.layers[i+1] @ dynamic_gradient
-                    relu_grad = (hidden_layer_activations[0]>0).astype(float)
-                    dynamic_gradient *= relu_grad
-                    layer_gradients[i] = np.outer(inputs, dynamic_gradient)
-
-                #neither output nor input layer
-                else:  
+                else:
                     dynamic_gradient = self.layers[i+1] @ dynamic_gradient
                     relu_grad = (hidden_layer_activations[i]>0).astype(float)
                     dynamic_gradient *= relu_grad
-                    layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
+                    #input layer
+                    if i == 0:
+                        layer_gradients[i] = np.outer(inputs, dynamic_gradient)
+                    #neither output nor input layer
+                    else:
+                        layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
                   
 
 
