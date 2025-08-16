@@ -9,7 +9,7 @@ def z_normalize_images(images):
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=10, hidden_dim=64, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=3, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
@@ -40,7 +40,7 @@ class MLP ():
         softmax_denominator = np.sum(np.exp(logits))
         return np.exp(logits) / softmax_denominator, softmax_denominator
 
-    def forward(self, inputs, target_value=None):
+    def forward(self, inputs, target_value=None, requires_grad=False):
         hidden_layer_activations = []
         #layer_activations.append(inputs.copy())
      
@@ -66,11 +66,6 @@ class MLP ():
         #unnormalized/unsoftmaxed logit
         if target_value == None:
             return logits
-        #if a target value is passed to model.forward
-        #then the model is in the training mode
-        #one needs to do softmax on the inputs
-        #to pass softmaxed logits into 
-        #CEL/cross-entropy loss
         else:
             #this is softmax
             #softmax denominator is returned by softmax 
@@ -82,22 +77,32 @@ class MLP ():
             #CEL is equal to -ln(exp(logits[target_value])/softmax_denom))
             #the formula below is algebraically equivalent to the one above
             CEL_value = -logits[target_value] + np.log(softmax_denom)
+            
+        #if no gradient is required,
+        #then just return CEL
+        if not requires_grad:
+            return CEL_value
+        
+
+        #if a target value is passed to model.forward
+        #and CEL is required
+        #then the model is in the training mode
+        #one needs to do softmax on the inputs
+        #to pass softmaxed logits into 
+        #CEL/cross-entropy loss
+        else:
 
             #this one is the gradient of CEL
             #d_softmax = normalized_logits.copy()
             d_softmax = normalized_logits
             d_softmax[target_value] -= 1
 
-            
-
             #initialize an list with as many empty
             #elements as there are hidden layers
             #i.e. param matrices
             layer_gradients = [None] * self.n_layers
 
-
             #this computes gradients of layer params
-            
             for i in range(self.n_layers-1, -1, -1):
                 #output softmax layer
                 if i == (self.n_layers-1):
@@ -108,8 +113,14 @@ class MLP ():
                     #this one contrains gradient of i-th layer
                     layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
                 else:
+                    #this one multiplies dynamic gradient by the gradient of pre-activations
+                    #gradient of pre-activations is equal to the corresponding weight matrix
+                    #which us stored in self.layers[i+1]
                     dynamic_gradient = self.layers[i+1] @ dynamic_gradient
+                    #gradient of hidden ReLU activation is equal to 1
+                    #if that activation is equal to 1 and 0 otherwise 
                     relu_grad = (hidden_layer_activations[i]>0).astype(float)
+                    #mulitply dynamic grad by activation gradient
                     dynamic_gradient *= relu_grad
                     #input layer
                     if i == 0:
@@ -125,11 +136,12 @@ def train_model_with_SGD (model,
                          n_epochs: int, 
                          sgd_lr_multiplier: float = 0.95
                         ):
-    
+    print ("_" * 50)
     print (f"Initial LR = {lr}")
     print (f"LR multipliter per epoch = {sgd_lr_multiplier}")
     print (f"Number of layers = {model.n_layers}")
     print (f"Dimensionality of hidden layers = {model.hidden_dim}")
+    print ("_" * 50)
     loss_history = []
 
     for epoch_index in range(1, n_epochs + 1):
@@ -142,7 +154,7 @@ def train_model_with_SGD (model,
         for x,y in training_set:
 
             #get the CEL gradient from the forward pass directly
-            loss, layer_grads = model.forward(x, y)
+            loss, layer_grads = model.forward(x, y, requires_grad=True)
          
             #do SGD step
             for i in range(model.n_layers):
@@ -166,6 +178,8 @@ train_x = np.load('train_mlp_x.npy')
 train_y = np.load('train_mlp_y.npy')
 test_x  = np.load('test_mlp_x.npy')   
 test_y  = np.load('test_mlp_y.npy')
+
+
 
 np.random.seed(42)
 perm = np.random.permutation(len(train_x))
@@ -195,7 +209,7 @@ mlp = MLP()
 
 SGD_LEARNING_RATE = 2e-3
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
-N_EPOCHS = 20
+N_EPOCHS = 5
 mlp, loss_history_SGD = train_model_with_SGD (mlp,
                                             list(training_set),
                                             SGD_LEARNING_RATE,
