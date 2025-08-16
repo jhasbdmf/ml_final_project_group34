@@ -79,10 +79,12 @@ num_classes = len(np.unique(train_y))
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model     = ShallowMLP(input_dim=input_dim, hidden_dim=64, num_classes=num_classes).to(device)
+model     = ShallowMLP(input_dim=input_dim, hidden_dim=128, num_classes=num_classes).to(device)
 criterion = nn.CrossEntropyLoss()
-#optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-optimizer = torch.optim.SGD(model.parameters(), lr=2e-3)
+LEARNING_RATE = 1e-4
+optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
+
+#optimizer = torch.optim.SGD(model.parameters(), lr=LEARNING_RATE)
 
 # -------------------------------------------------------------------
 # 4) Train & eval functions
@@ -125,7 +127,8 @@ def evaluate():
 # -------------------------------------------------------------------
 # 5) Training loop
 # -------------------------------------------------------------------
-n_epochs = 5
+print (f"Initial LR = {LEARNING_RATE}")
+n_epochs = 40
 for epoch in range(1, n_epochs+1):
     tr_loss, tr_acc = train_one_epoch()
     tst_loss, tst_acc = evaluate()

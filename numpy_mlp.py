@@ -23,12 +23,14 @@ class MLP ():
                 in_dim = input_dim
             elif (i+1) == n_layers:
                 out_dim = n_classes
-
+            std = 0.2
+            if in_dim == out_dim:
+                std = np.sqrt(2/in_dim)
             current_layer = rng.normal(
                 #mean
                 loc=0.0,      
                 #standard deviation
-                scale=0.2,        
+                scale=std,        
                 size=(in_dim, out_dim)
             ).astype(np.float32)
             self.layers.append (current_layer)
@@ -36,7 +38,13 @@ class MLP ():
     def ReLU (self, x):
         x = np.asarray(x)
         return np.maximum(0, x)
- 
+    """
+    def _get_normalized_logits_with_softmax_denom(self, logits):
+        logits = logits - np.max(logits)
+        exp_logits = np.exp(logits)
+        softmax_denominator = np.sum(exp_logits)
+        return exp_logits / softmax_denominator, softmax_denominator
+    """
     def _get_normalized_logits_with_softmax_denom(self, logits):
         softmax_denominator = np.sum(np.exp(logits))
         return np.exp(logits) / softmax_denominator, softmax_denominator
@@ -174,6 +182,9 @@ def train_model_with_SGD (model,
          
             #do SGD step
             for i in range(model.n_layers):
+                #grad_norm = np.linalg.norm(layer_grads[i], ord=2)
+                #if grad_norm > 1:
+                #    layer_grads[i] /= grad_norm
                 model.layers[i] -= lr*layer_grads[i]
 
             total_train_loss += loss
@@ -234,7 +245,7 @@ np.set_printoptions(
 
 mlp = MLP()
 
-SGD_LEARNING_RATE = 3e-3
+SGD_LEARNING_RATE = 2e-3
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.95
 N_EPOCHS = 10
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
