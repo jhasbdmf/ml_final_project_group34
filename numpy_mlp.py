@@ -10,7 +10,7 @@ def z_normalize_images(images):
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=5, hidden_dim=32, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=9, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
@@ -164,7 +164,7 @@ def train_model_with_SGD (model,
         total_train_loss = 0
 
         #shuffle training set in a reproducible manner
-        random.seed(42)
+        random.seed(42 + epoch_index)
         random.shuffle(training_set) 
 
         for x,y in training_set:
@@ -183,11 +183,11 @@ def train_model_with_SGD (model,
         
         #compute, print and save avg loss per epoch
         avg_train_loss = total_train_loss / len(training_set)
-        print (f"average train loss is {avg_train_loss}")
+        print (f"average train loss = {avg_train_loss:.5f}")
         train_loss_history.append(avg_train_loss)
  
         avg_val_loss = evaluate_model_on (model, validation_set)
-        print (f"average val loss is {avg_val_loss}")
+        print (f"average val loss = {avg_val_loss:.5f}")
         val_loss_history.append(avg_val_loss)
         print ("_" * 50)
 
@@ -235,7 +235,7 @@ np.set_printoptions(
 mlp = MLP()
 
 SGD_LEARNING_RATE = 2e-3
-LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
+LEARNING_RATE_MULTIPLIER_PER_EPOCH = 1
 N_EPOCHS = 5
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
                                             list(training_set),
@@ -244,4 +244,5 @@ mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
                                             N_EPOCHS,
                                             LEARNING_RATE_MULTIPLIER_PER_EPOCH
                                             )
-
+avg_test_loss = evaluate_model_on(mlp, list(test_set))
+print (f"TEST LOSS = {avg_test_loss:.5f}")
