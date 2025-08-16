@@ -9,7 +9,7 @@ def z_normalize_images(images):
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=2, hidden_dim=32, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=4, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
@@ -113,10 +113,23 @@ class MLP ():
             #this computes gradients of layer params
             for i in range(self.n_layers-1, -1, -1):
                 if i == (self.n_layers-1):
-                    layer_gradients[i] = np.outer(hidden_layer_activations[i-1], d_softmax)
+                    dynamic_gradient = d_softmax
+                    layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
+                
                 elif i == 0:
+                    dynamic_gradient = self.layers[i+1] @ dynamic_gradient
                     relu_grad = (hidden_layer_activations[0]>0).astype(float)
-                    layer_gradients[i] = np.outer(inputs, (self.layers[i+1] @ d_softmax)*relu_grad)  
+                    dynamic_gradient *= relu_grad
+                    layer_gradients[i] = np.outer(inputs, dynamic_gradient)
+
+                #neither output nor input layer
+                else:  
+                    dynamic_gradient = self.layers[i+1] @ dynamic_gradient
+                    relu_grad = (hidden_layer_activations[i]>0).astype(float)
+                    dynamic_gradient *= relu_grad
+                    layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
+                  
+
 
             return CEL_value, layer_gradients
             #d_W2 = np.outer(hidden_layer_activations[0], d_softmax)
@@ -152,9 +165,9 @@ def train_model_with_SGD (model,
             loss, layer_grads = model.forward(x, y)
          
             #do SGD step
-
             for i in range(model.n_layers):
                 model.layers[i] -= lr*layer_grads[i]
+
             #model.layers[0] -= lr*layer_grads[0]
             #model.layers[1] -= lr*layer_grads[1]
             #model.layers[0] -= lr*dW1
