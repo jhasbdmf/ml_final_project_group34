@@ -9,10 +9,11 @@ def z_normalize_images(images):
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=3, hidden_dim=32, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=10, hidden_dim=64, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
+        self.hidden_dim = hidden_dim
         self.layers = []
         for i in range (n_layers):
             in_dim = hidden_dim
@@ -125,6 +126,10 @@ def train_model_with_SGD (model,
                          sgd_lr_multiplier: float = 0.95
                         ):
     
+    print (f"Initial LR = {lr}")
+    print (f"LR multipliter per epoch = {sgd_lr_multiplier}")
+    print (f"Number of layers = {model.n_layers}")
+    print (f"Dimensionality of hidden layers = {model.hidden_dim}")
     loss_history = []
 
     for epoch_index in range(1, n_epochs + 1):
@@ -190,8 +195,7 @@ mlp = MLP()
 
 SGD_LEARNING_RATE = 2e-3
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
-print (f"LR multipliter per epoch = {LEARNING_RATE_MULTIPLIER_PER_EPOCH}")
-N_EPOCHS = 10
+N_EPOCHS = 20
 mlp, loss_history_SGD = train_model_with_SGD (mlp,
                                             list(training_set),
                                             SGD_LEARNING_RATE,
