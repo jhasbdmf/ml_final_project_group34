@@ -79,7 +79,7 @@ num_classes = len(np.unique(train_y))
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-model     = ShallowMLP(input_dim=input_dim, hidden_dim=32, num_classes=num_classes).to(device)
+model     = ShallowMLP(input_dim=input_dim, hidden_dim=64, num_classes=num_classes).to(device)
 criterion = nn.CrossEntropyLoss()
 #optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 optimizer = torch.optim.SGD(model.parameters(), lr=2e-3)

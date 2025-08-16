@@ -10,7 +10,7 @@ def z_normalize_images(images):
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=9, hidden_dim=32, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=5, hidden_dim=64, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
@@ -150,7 +150,7 @@ def train_model_with_SGD (model,
 
     print ("_" * 50)
     print (f"Initial LR = {lr}")
-    print (f"LR multipliter per epoch = {sgd_lr_multiplier}")
+    print (f"LR multipliter per epoch = {sgd_lr_multiplier:.5f}")
     print (f"Number of layers = {model.n_layers}")
     print (f"Dimensionality of hidden layers = {model.hidden_dim}")
     print ("_" * 50)
@@ -234,9 +234,9 @@ np.set_printoptions(
 
 mlp = MLP()
 
-SGD_LEARNING_RATE = 2e-3
-LEARNING_RATE_MULTIPLIER_PER_EPOCH = 1
-N_EPOCHS = 5
+SGD_LEARNING_RATE = 3e-3
+LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.95
+N_EPOCHS = 10
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
                                             list(training_set),
                                             list(val_set),
@@ -246,3 +246,4 @@ mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
                                             )
 avg_test_loss = evaluate_model_on(mlp, list(test_set))
 print (f"TEST LOSS = {avg_test_loss:.5f}")
+print ("_" * 50)
