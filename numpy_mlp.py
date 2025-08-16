@@ -1,4 +1,5 @@
 import numpy as np
+import random
 
 def z_normalize_images(images):
     mean = images.mean()
@@ -9,7 +10,7 @@ def z_normalize_images(images):
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=3, hidden_dim=32, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=5, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
@@ -64,7 +65,7 @@ class MLP ():
         #in the inference mode
         #since one can base model prediction on the highest
         #unnormalized/unsoftmaxed logit
-        if target_value == None:
+        if target_value is None:
             return logits
         else:
             #this is softmax
@@ -130,27 +131,42 @@ class MLP ():
                         layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
             return CEL_value, layer_gradients
 
+def evaluate_model_on(model, dataset):
+    total_loss = 0
+    for x, y in dataset:
+        total_loss += model.forward(x, y, requires_grad=False)
+    return total_loss/len(dataset)
+     
+
+
 def train_model_with_SGD (model, 
                          training_set,
+                         validation_set,
                          lr: float, 
                          n_epochs: int, 
                          sgd_lr_multiplier: float = 0.95
                         ):
+    
+
     print ("_" * 50)
     print (f"Initial LR = {lr}")
     print (f"LR multipliter per epoch = {sgd_lr_multiplier}")
     print (f"Number of layers = {model.n_layers}")
     print (f"Dimensionality of hidden layers = {model.hidden_dim}")
     print ("_" * 50)
-    loss_history = []
+    train_loss_history = []
+    val_loss_history = []
 
     for epoch_index in range(1, n_epochs + 1):
 
         print (f"Epoch {epoch_index}/{n_epochs}")
         print (f"current SGD learning rate = {lr}")
-        total_loss = 0
-       
-        #random.shuffle(token_pairs) 
+        total_train_loss = 0
+
+        #shuffle training set in a reproducible manner
+        random.seed(42)
+        random.shuffle(training_set) 
+
         for x,y in training_set:
 
             #get the CEL gradient from the forward pass directly
@@ -160,46 +176,57 @@ def train_model_with_SGD (model,
             for i in range(model.n_layers):
                 model.layers[i] -= lr*layer_grads[i]
 
-            total_loss += loss
+            total_train_loss += loss
           
         #decrease lr each epoch
         lr *= sgd_lr_multiplier
         
         #compute, print and save avg loss per epoch
-        avg_loss = total_loss / len(training_set)
-        print (f"average loss is {avg_loss}")
-        loss_history.append(avg_loss)
+        avg_train_loss = total_train_loss / len(training_set)
+        print (f"average train loss is {avg_train_loss}")
+        train_loss_history.append(avg_train_loss)
+ 
+        avg_val_loss = evaluate_model_on (model, validation_set)
+        print (f"average val loss is {avg_val_loss}")
+        val_loss_history.append(avg_val_loss)
         print ("_" * 50)
 
-    return model, loss_history
+    return model, train_loss_history, val_loss_history
 
 
 train_x = np.load('train_mlp_x.npy') 
 train_y = np.load('train_mlp_y.npy')
-test_x  = np.load('test_mlp_x.npy')   
-test_y  = np.load('test_mlp_y.npy')
+val_and_test_x  = np.load('test_mlp_x.npy')   
+val_and_test_y  = np.load('test_mlp_y.npy')
 
+N = len(val_and_test_x)
+perm = np.random.RandomState(seed=42).permutation(N)
+split_at = N // 2
 
+val_idx = perm[:split_at]
+test_idx = perm[split_at:]
 
-np.random.seed(42)
-perm = np.random.permutation(len(train_x))
-train_x = train_x[perm]
-train_y = train_y[perm]
+val_x  = val_and_test_x[val_idx]
+val_y  = val_and_test_y[val_idx]
+test_x = val_and_test_x[test_idx]
+test_y = val_and_test_y[test_idx]
 
 
 
 # z_normalization of inputs
 train_x  = z_normalize_images(train_x)  
+val_x  = z_normalize_images(val_x)  
 test_x  = z_normalize_images(test_x)  
 
-#create training and test set by zipping 
+#create training, val and test set by zipping 
 #corresponding inputs and targets
 training_set = zip(train_x, train_y)
+val_set = zip(val_x, val_y)
 test_set = zip(test_x, test_y)
 
 #numpy printing instruction for decimal notation
 np.set_printoptions(
-    precision   = 18,       
+    precision   = 5,       
     floatmode   = 'fixed',  
     suppress    = True     
 )
@@ -210,8 +237,9 @@ mlp = MLP()
 SGD_LEARNING_RATE = 2e-3
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
 N_EPOCHS = 5
-mlp, loss_history_SGD = train_model_with_SGD (mlp,
+mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
                                             list(training_set),
+                                            list(val_set),
                                             SGD_LEARNING_RATE,
                                             N_EPOCHS,
                                             LEARNING_RATE_MULTIPLIER_PER_EPOCH
