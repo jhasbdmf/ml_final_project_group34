@@ -1,16 +1,12 @@
 import numpy as np
 import random
+from utilities import z_normalize_images
 
-def z_normalize_images(images):
-    mean = images.mean()
-    std  = images.std()
-    eps  = 1e-8
-    return (images - mean) / (std + eps)
 
 class MLP ():
     #input layer is not counted in n_layers
     #output layer is
-    def __init__(self, input_dim=2304, n_layers=5, hidden_dim=64, n_classes=7):
+    def __init__(self, input_dim=2304, n_layers=5, hidden_dim=32, n_classes=7):
         rng = np.random.default_rng(seed=42) 
         
         self.n_layers = n_layers
