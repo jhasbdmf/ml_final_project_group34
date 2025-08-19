@@ -19,7 +19,12 @@ class CNN ():
         #where 0th layer is the input layer with
         #one channel since inputs are grayscale
         self.n_channels = [1]
+
+        #no more conv layers are initialized 
+        #than necessary so that the receptive field
+        #of the last conv layer covers the entire input image
         self.n_conv = min(n_conv_layers, (in_dim // (kernel_size-1)) -1 )
+
         self.layers = []
 
         for i in range(self.n_conv):
@@ -27,6 +32,7 @@ class CNN ():
 
             #compute standard deviation for Kaiming initialization of
             #weights of convolutional kernels
+            #because ReLU activations are used
             current_input_dim = n_channels * (kernel_size ** 2)
             std = np.sqrt(2/current_input_dim )
 
@@ -55,15 +61,41 @@ class CNN ():
         self.fc = rng.uniform(-uniform_boundary, uniform_boundary, size=(n_param_total_last_conv_layer, self.output_dim))
         
     
-    def cross_correlation_2D_of (self, input, kernels):
-  
+    #def cross_correlation_2D_of (self, input, kernels):
+    def _cross_correlation_2D_of_with (self, kernels, input, special_case = False):
         #print (f"kernel shape = {kernels.shape}")
-        picture_patches = sliding_window_view(input, kernels[0].shape[1:], axis = (1,2))
-        cc2d = np.einsum("ihwkl, oikl->ohw", picture_patches, kernels)
-        
+        #picture_patches = sliding_window_view(input, kernels[0].shape[1:], axis = (1,2))
+        picture_patches = sliding_window_view(input, kernels.shape[-2:], axis = (1,2))
+        if special_case:
+            cc2d = np.einsum("ihwkl, okl->oihw", picture_patches, kernels)
+        else:
+            cc2d = np.einsum("ihwkl, oikl->ohw", picture_patches, kernels)
+        #if forward_pass:
+        #    cc2d = np.einsum("ihwkl, oikl->ohw", picture_patches, kernels)
+        #else:
+     
+        #    print (f"patches {picture_patches.shape}")
+        #    print (f"current kernel {kernels.shape}")
+        #    cc2d = np.einsum("ihwkl, okl->oihw", picture_patches, kernels)
+        #    print (f"grad {cc2d.shape}")
         return cc2d
+    
+    def _transposed_cross_correlation_2D_of_with (self, error_signal, network_layer):
+        #print (f"kernel shape = {kernels.shape}")
+        #picture_patches = sliding_window_view(input, kernels[0].shape[-2:], axis = (1,2))
+        #picture_patches = sliding_window_view(input, kernels[0].shape[-2:], axis = (2,3))
+
+        error_signal_padded = np.pad(error_signal, ((0,0), (2,2), (2,2)), mode='constant')
+        picture_patches = sliding_window_view(error_signal_padded, network_layer.shape[-2:], axis = (1,2))
+        print (f"pict patches shape = {picture_patches.shape}")
+        print (f"net layer shape = {network_layer.shape}")
+        print (f"error signal shape = {error_signal.shape}")
+        tcc2d = np.einsum("ohwkl, oikl->ihw", picture_patches, network_layer)
+        print (f"tcc2d shape = {tcc2d.shape}")
+
+        return tcc2d
    
-    def ReLU (self, x):
+    def _ReLU (self, x):
         return np.maximum(x, 0, out=x)
     
     def _get_normalized_logits_with_softmax_denom(self, logits):
@@ -76,17 +108,19 @@ class CNN ():
 
         layer_activations = [inputs]
         for i in range(self.n_conv):
-            cross_correlation = self.cross_correlation_2D_of(layer_activations[i], self.layers[i])
-            layer_activations.append(self.ReLU(cross_correlation))
+            cross_correlation = self._cross_correlation_2D_of_with(self.layers[i], layer_activations[i])
+            layer_activations.append(self._ReLU(cross_correlation))
          
-            print (layer_activations[-1].shape)
+            print (f"{i+1}th conv layer act shape = {layer_activations[-1].shape}")
+            print (f"{i+1}th conv layer kernel shape = {self.layers[i].shape}")
+       
             print ("_" * 50)
         
         #push output into the fully conntected layer
         #to get as many logits as there are
         #target classes
-        print (self.fc.shape)
-        print (layer_activations[-1].flatten().shape)
+        print ("fc shape ", self.fc.shape)
+        print ("last conv flattened shape ", layer_activations[-1].flatten().shape)
         logits =  layer_activations[-1].flatten() @ self.fc
 
         
@@ -130,39 +164,48 @@ class CNN ():
             d_softmax = normalized_logits
             d_softmax[target_value] -= 1
 
-            #initialize an list with as many empty
-            #elements as there are hidden layers
-            #i.e. param matrices
-            layer_gradients = [None] * (self.n_conv + self.n_fc)
-            """
-            #this computes gradients of layer params
-            for i in range(self.n_layers-1, -1, -1):
-                #output softmax layer
-                if i == (self.n_layers-1):
-                    #this is the part of the gradient
-                    #which is reused across layers
-                    dynamic_gradient = d_softmax
+            #gradient of the fully connected layer
+            fc_gradient = np.outer(layer_activations[-1].flatten(), d_softmax)
 
-                    #this one contrains gradient of i-th layer
-                    layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
+            #initialize an list with as many empty
+            #elements as there are conv layers
+            #i.e. cross-correlation param tensors
+            conv_layer_gradients = [None] * (self.n_conv)
+            #error_signal = self.fc @ d_softmax
+
+            #!!!!!
+            reshaped_fc_shape = list(layer_activations[-1].shape)
+            reshaped_fc_shape.append(self.output_dim)
+           
+            error_signal = self.fc.reshape(reshaped_fc_shape) @ d_softmax
+            #print ("error signal shape ", error_signal.shape)
+
+            
+
+            for i in range(self.n_conv-1, -1, -1):
+                #idk how to compute cross corr of diff shapes
+                if i == self.n_conv-1:
+                    
+                    #error signal from fc has a different dimensionality than error signals from 
+                    #conv layers, so last conv layer receiving error signal from fc layer
+                    #is a special case compared to other conv layers which receive
+                    #error signal from other conv layers
+                    current_conv_layer_grad = self._cross_correlation_2D_of_with(error_signal, layer_activations[i], special_case=True)
+                    #error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
+                    #a = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
+                
                 else:
-                    #this one multiplies dynamic gradient by the gradient of pre-activations
-                    #gradient of pre-activations is equal to the corresponding weight matrix
-                    #which us stored in self.layers[i+1]
-                    dynamic_gradient = self.layers[i+1] @ dynamic_gradient
-                    #gradient of hidden ReLU activation is equal to 1
-                    #if that activation is equal to 1 and 0 otherwise 
-                    relu_grad = (hidden_layer_activations[i]>0).astype(float)
-                    #mulitply dynamic grad by activation gradient
-                    dynamic_gradient *= relu_grad
-                    #input layer
-                    if i == 0:
-                        layer_gradients[i] = np.outer(inputs, dynamic_gradient)
-                    #neither output nor input layer
-                    else:
-                        layer_gradients[i] = np.outer(hidden_layer_activations[i-1], dynamic_gradient)
-            return CEL_value, layer_gradients
-            """
+                    current_conv_layer_grad = self._cross_correlation_2D_of_with(error_signal, layer_activations[i], special_case=True)
+                    #error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, layer_activations[i])
+
+                error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
+                conv_layer_gradients[i] = current_conv_layer_grad
+            
+
+          
+            
+            return CEL_value, fc_gradient, conv_layer_gradients
+            
        
             
        
@@ -187,7 +230,7 @@ np.set_printoptions(
 cnn = CNN()
 
 for x, y in train_set:
-    print (cnn.forward(x, y))
+    _, _, _ = cnn.forward(x, y, requires_grad=True)
     break
 
 #print (cnn.n_conv)
