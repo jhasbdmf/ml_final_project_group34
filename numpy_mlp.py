@@ -1,6 +1,7 @@
 import numpy as np
 import random
 from utilities import preprocess_dataset_for
+import matplotlib.pyplot as plt
 
 
 class MLP ():
@@ -282,7 +283,9 @@ hyperparameters_to_tune = {
     'lr': [0.01, 0.005, 0.001],
     'lr_multiplier': [0.95],
     'hidden_dim': [32, 64, 128],
+    #'hidden_dim': [32],
     'n_layers': [1, 4, 7]
+    #'n_layers': [1]
     }
 
 N_EPOCHS = 10
@@ -310,7 +313,26 @@ train_loss_history, val_loss_history, best_model, best_params, best_loss = grid_
         n_epochs=N_EPOCHS
     )
 
-avg_test_loss = evaluate_model_on(best_model, test_set)
+avg_test_loss = evaluate_model_on(best_model, list(test_set))
 
-print (f"TEST LOSS = {avg_test_loss:.5f}")
+print (f"best hyperparams are {best_params}")
+print (f"VAL LOSS of best model is = {best_loss:.5f}")
+print (f"TEST LOSS of best model is = {avg_test_loss:.5f}")
+
+
+# Indices
+indices1 = range(len(train_loss_history))  
+indices2 = range(len(val_loss_history)) 
+
+# Plot both
+plt.plot(indices1, train_loss_history, marker='o', linestyle='-', label='train loss hist')
+plt.plot(indices2, val_loss_history, marker='s', linestyle='--', label='val loss hist')
+
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.title('Train and val loss vs epochs')
+plt.legend()
+plt.grid(True)
+plt.show()
+
 print ("_" * 50)
