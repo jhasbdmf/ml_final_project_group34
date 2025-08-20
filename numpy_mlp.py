@@ -34,7 +34,7 @@ class MLP ():
     def ReLU (self, x):
         x = np.asarray(x)
         return np.maximum(0, x)
-    """
+    
     def _get_normalized_logits_with_softmax_denom(self, logits):
         logits = logits - np.max(logits)
         exp_logits = np.exp(logits)
@@ -44,7 +44,7 @@ class MLP ():
     def _get_normalized_logits_with_softmax_denom(self, logits):
         softmax_denominator = np.sum(np.exp(logits))
         return np.exp(logits) / softmax_denominator, softmax_denominator
-
+    """
     def forward(self, inputs, target_value=None, requires_grad=False):
         hidden_layer_activations = []
         #layer_activations.append(inputs.copy())
@@ -81,7 +81,8 @@ class MLP ():
             
             #CEL is equal to -ln(exp(logits[target_value])/softmax_denom))
             #the formula below is algebraically equivalent to the one above
-            CEL_value = -logits[target_value] + np.log(softmax_denom)
+            #CEL_value = -logits[target_value] + np.log(softmax_denom)
+            CEL_value = -np.log(normalized_logits[target_value])
             
         #if no gradient is required,
         #then just return CEL
