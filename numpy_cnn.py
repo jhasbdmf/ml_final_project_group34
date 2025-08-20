@@ -180,7 +180,7 @@ class CNN ():
             
             for i in range(self.n_conv-1, -1, -1):
                 
-                error_signal = error_signal * (layer_activations[i+1] > 0)
+                error_signal *= (layer_activations[i+1] > 0)
 
                 current_conv_layer_grad = self._cross_correlation_2D_of_with(
                     error_signal, layer_activations[i], forward_pass=False
