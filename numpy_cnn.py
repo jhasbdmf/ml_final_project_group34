@@ -191,8 +191,10 @@ class CNN ():
                 conv_layer_gradients[i] = current_conv_layer_grad
                 print ("current grad shape", current_conv_layer_grad.shape)
             
+            layer_gradients = conv_layer_gradients
+            layer_gradients.append(fc_gradient)
 
-            return CEL_value, fc_gradient, conv_layer_gradients
+            return CEL_value, layer_gradients
             
        
             
@@ -218,7 +220,7 @@ np.set_printoptions(
 cnn = CNN()
 
 for x, y in train_set:
-    _, _, _ = cnn.forward(x, y, requires_grad=True)
+    _, _ = cnn.forward(x, y, requires_grad=True)
     break
 
 #print (cnn.n_conv)
