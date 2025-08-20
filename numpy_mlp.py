@@ -51,9 +51,14 @@ class MLP ():
      
         
         for i in range(self.n_layers):
+            
+             # Special case: only one layer, it’s the output layer
+            if self.n_layers == 1:
+                logits = inputs @ self.layers[i]
             #ReLU activations in all the layers but the last
-            if i == 0:
+            elif i == 0:
                 hidden_layer_activations.append(self.ReLU(inputs @ self.layers[i]))
+                
             elif (i+1) < self.n_layers:
                 hidden_layer_activations.append(self.ReLU(hidden_layer_activations[i-1] @ self.layers[i]))
             #no activation function applied so far
@@ -110,8 +115,13 @@ class MLP ():
 
             #this computes gradients of layer params
             for i in range(self.n_layers-1, -1, -1):
+
+                if self.n_layers == 1:
+                    # Single-layer network
+                    dynamic_gradient = d_softmax  # from your loss derivative
+                    layer_gradients[i] = np.outer(inputs, dynamic_gradient)
                 #output softmax layer
-                if i == (self.n_layers-1):
+                elif i == (self.n_layers-1):
                     #this is the part of the gradient
                     #which is reused across layers
                     dynamic_gradient = d_softmax
@@ -201,6 +211,63 @@ def train_model_with_SGD (model,
 
     return model, train_loss_history, val_loss_history
 
+def grid_search(hyperparameters: dict,
+                train_set: list,
+                validation_set: list,
+                n_epochs: int):
+    best_loss = float("inf")
+    best_params = {}
+    best_model = None
+
+    # extract hyperparameter combinations
+    learning_rate = hyperparameters.get('lr', [])
+    lr_multipliers = hyperparameters.get('lr_multiplier', [])
+    hidden_dims = hyperparameters.get('hidden_dim', [])
+    n_layers_list = hyperparameters.get('n_layers', [])
+
+    # iterate over all combinations
+    for lr in learning_rate:
+        for lr_multiplier in lr_multipliers:
+            for hidden_dim in hidden_dims:
+                for n_layers in n_layers_list:
+                    print ("_" * 100)
+                    print(f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
+                          f"hidden_dim={hidden_dim}, n_layers={n_layers}")
+
+                    # create a new model for each combination
+                    model = MLP(n_layers=n_layers, hidden_dim=hidden_dim)
+
+                    # train the model and track validation loss history
+                    trained_model, train_loss_history, val_loss_history = train_model_with_SGD(
+                        model,
+                        train_set,
+                        validation_set,
+                        lr=lr,
+                        n_epochs=n_epochs,
+                        sgd_lr_multiplier=lr_multiplier
+                    )
+
+                    # find the best validation loss
+                    min_val_loss = min(val_loss_history)
+                    #print (f"min_val_loss = {min_val_loss:.5f}")
+
+                    # check if new combination is best
+                    if min_val_loss < best_loss:
+                        best_loss = min_val_loss
+                        best_params = {
+                            'lr': lr,
+                            'lr_multiplier': lr_multiplier,
+                            'hidden_dim': hidden_dim,
+                            'n_layers': n_layers
+                        }
+                        best_model = trained_model
+                        best_train_loss_history = train_loss_history
+                        best_val_loss_history = val_loss_history
+                    
+                    print (f"min best val loss so far = {best_loss}")
+
+    return best_train_loss_history, best_val_loss_history, best_model, best_params, best_loss
+
 
 train_set, val_set, test_set = preprocess_dataset_for("mlp")
 
@@ -211,19 +278,39 @@ np.set_printoptions(
     suppress    = True     
 )
 
+hyperparameters_to_tune = {
+    'lr': [0.01, 0.005, 0.001],
+    'lr_multiplier': [0.95],
+    'hidden_dim': [32, 64, 128],
+    'n_layers': [1, 4, 7]
+    }
 
-mlp = MLP()
-
-SGD_LEARNING_RATE = 2e-3
-LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
 N_EPOCHS = 10
-mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
-                                            list(train_set),
-                                            list(val_set),
-                                            SGD_LEARNING_RATE,
-                                            N_EPOCHS,
-                                            LEARNING_RATE_MULTIPLIER_PER_EPOCH
-                                            )
-avg_test_loss = evaluate_model_on(mlp, list(test_set))
+
+#mlp = MLP()
+
+#SGD_LEARNING_RATE = 2e-3
+#LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
+#N_EPOCHS = 10
+#mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
+#                                            list(train_set),
+#                                            list(val_set),
+#                                            SGD_LEARNING_RATE,
+#                                            N_EPOCHS,
+#                                            LEARNING_RATE_MULTIPLIER_PER_EPOCH
+#                                            )
+
+
+#avg_test_loss = evaluate_model_on(mlp, list(test_set))
+
+train_loss_history, val_loss_history, best_model, best_params, best_loss = grid_search(
+        hyperparameters_to_tune,
+        list(train_set),
+        list(val_set),
+        n_epochs=N_EPOCHS
+    )
+
+avg_test_loss = evaluate_model_on(best_model, test_set)
+
 print (f"TEST LOSS = {avg_test_loss:.5f}")
 print ("_" * 50)
