@@ -62,14 +62,17 @@ class CNN ():
         
     
     #def cross_correlation_2D_of (self, input, kernels):
-    def _cross_correlation_2D_of_with (self, kernels, input, special_case = False):
-        #print (f"kernel shape = {kernels.shape}")
-        #picture_patches = sliding_window_view(input, kernels[0].shape[1:], axis = (1,2))
+    def _cross_correlation_2D_of_with (self, kernels, input, forward_pass = True):
+       
         picture_patches = sliding_window_view(input, kernels.shape[-2:], axis = (1,2))
-        if special_case:
-            cc2d = np.einsum("ihwkl, okl->oihw", picture_patches, kernels)
-        else:
+
+        #this is cc2d for the backward pass pass
+        if forward_pass:
             cc2d = np.einsum("ihwkl, oikl->ohw", picture_patches, kernels)
+            
+        #this is cc2d for the forward pass
+        else:
+            cc2d = np.einsum("ihwkl, okl->oihw", picture_patches, kernels)
         #if forward_pass:
         #    cc2d = np.einsum("ihwkl, oikl->ohw", picture_patches, kernels)
         #else:
@@ -87,11 +90,11 @@ class CNN ():
 
         error_signal_padded = np.pad(error_signal, ((0,0), (2,2), (2,2)), mode='constant')
         picture_patches = sliding_window_view(error_signal_padded, network_layer.shape[-2:], axis = (1,2))
-        print (f"pict patches shape = {picture_patches.shape}")
-        print (f"net layer shape = {network_layer.shape}")
-        print (f"error signal shape = {error_signal.shape}")
+        #print (f"pict patches shape = {picture_patches.shape}")
+        #print (f"net layer shape = {network_layer.shape}")
+        #print (f"error signal shape = {error_signal.shape}")
         tcc2d = np.einsum("ohwkl, oikl->ihw", picture_patches, network_layer)
-        print (f"tcc2d shape = {tcc2d.shape}")
+        #print (f"tcc2d shape = {tcc2d.shape}")
 
         return tcc2d
    
@@ -181,29 +184,14 @@ class CNN ():
             #print ("error signal shape ", error_signal.shape)
 
             
-
             for i in range(self.n_conv-1, -1, -1):
-                #idk how to compute cross corr of diff shapes
-                if i == self.n_conv-1:
-                    
-                    #error signal from fc has a different dimensionality than error signals from 
-                    #conv layers, so last conv layer receiving error signal from fc layer
-                    #is a special case compared to other conv layers which receive
-                    #error signal from other conv layers
-                    current_conv_layer_grad = self._cross_correlation_2D_of_with(error_signal, layer_activations[i], special_case=True)
-                    #error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
-                    #a = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
-                
-                else:
-                    current_conv_layer_grad = self._cross_correlation_2D_of_with(error_signal, layer_activations[i], special_case=True)
-                    #error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, layer_activations[i])
 
+                current_conv_layer_grad = self._cross_correlation_2D_of_with(error_signal, layer_activations[i], forward_pass=False)
                 error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
                 conv_layer_gradients[i] = current_conv_layer_grad
+                print ("current grad shape", current_conv_layer_grad.shape)
             
 
-          
-            
             return CEL_value, fc_gradient, conv_layer_gradients
             
        
