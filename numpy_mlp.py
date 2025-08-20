@@ -214,7 +214,7 @@ np.set_printoptions(
 mlp = MLP()
 
 SGD_LEARNING_RATE = 2e-3
-LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.95
+LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
 N_EPOCHS = 10
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (mlp,
                                             list(train_set),

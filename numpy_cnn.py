@@ -2,11 +2,13 @@ from utilities import preprocess_dataset_for
 import numpy as np
 import math
 from numpy.lib.stride_tricks import sliding_window_view
+import random
+import time
 
 
 
 class CNN ():
-    def __init__(self, in_dim: int = 48, out_dim: int=7, kernel_size: int = 3, n_channels: int = 16, n_conv_layers: int = 25):
+    def __init__(self, in_dim: int = 48, out_dim: int=7, kernel_size: int = 5, n_channels: int = 16, n_conv_layers: int = 25):
         
         rng = np.random.default_rng(42)
 
@@ -24,6 +26,7 @@ class CNN ():
         #than necessary so that the receptive field
         #of the last conv layer covers the entire input image
         self.n_conv = min(n_conv_layers, (in_dim // (kernel_size-1)) -1 )
+        
 
         self.layers = []
 
@@ -87,9 +90,15 @@ class CNN ():
         #print (f"kernel shape = {kernels.shape}")
         #picture_patches = sliding_window_view(input, kernels[0].shape[-2:], axis = (1,2))
         #picture_patches = sliding_window_view(input, kernels[0].shape[-2:], axis = (2,3))
+     
+        _, _, kH, kW = network_layer.shape
 
-        error_signal_padded = np.pad(error_signal, ((0,0), (2,2), (2,2)), mode='constant')
-        picture_patches = sliding_window_view(error_signal_padded, network_layer.shape[-2:], axis = (1,2))
+        pad_h, pad_w = kH - 1, kW - 1
+        # pad spatial axes only
+        error_signal_padded = np.pad(error_signal, ((0,0), (pad_h,pad_h), (pad_w,pad_w)), mode='constant')
+
+        
+        picture_patches = sliding_window_view(error_signal_padded, (kH, kW), axis = (1,2))
         #print (f"pict patches shape = {picture_patches.shape}")
         #print (f"net layer shape = {network_layer.shape}")
         #print (f"error signal shape = {error_signal.shape}")
@@ -114,16 +123,16 @@ class CNN ():
             cross_correlation = self._cross_correlation_2D_of_with(self.layers[i], layer_activations[i])
             layer_activations.append(self._ReLU(cross_correlation))
          
-            print (f"{i+1}th conv layer act shape = {layer_activations[-1].shape}")
-            print (f"{i+1}th conv layer kernel shape = {self.layers[i].shape}")
+            #print (f"{i+1}th conv layer act shape = {layer_activations[-1].shape}")
+            #print (f"{i+1}th conv layer kernel shape = {self.layers[i].shape}")
        
-            print ("_" * 50)
+            #print ("_" * 50)
         
         #push output into the fully conntected layer
         #to get as many logits as there are
         #target classes
-        print ("fc shape ", self.fc.shape)
-        print ("last conv flattened shape ", layer_activations[-1].flatten().shape)
+        #print ("fc shape ", self.fc.shape)
+        #print ("last conv flattened shape ", layer_activations[-1].flatten().shape)
         logits =  layer_activations[-1].flatten() @ self.fc
 
         
@@ -185,16 +194,97 @@ class CNN ():
 
             
             for i in range(self.n_conv-1, -1, -1):
+                
+                error_signal = error_signal * (layer_activations[i+1] > 0)
 
-                current_conv_layer_grad = self._cross_correlation_2D_of_with(error_signal, layer_activations[i], forward_pass=False)
-                error_signal = self._transposed_cross_correlation_2D_of_with(error_signal, self.layers[i]) 
+                # 2. Gradient wrt conv[i] kernels
+                current_conv_layer_grad = self._cross_correlation_2D_of_with(
+                    error_signal, layer_activations[i], forward_pass=False
+                )
+
+                # 3. Backpropagate to input of conv[i]
+                error_signal = self._transposed_cross_correlation_2D_of_with(
+                    error_signal, self.layers[i]
+                )
+
                 conv_layer_gradients[i] = current_conv_layer_grad
-                print ("current grad shape", current_conv_layer_grad.shape)
+                
             
             layer_gradients = conv_layer_gradients
             layer_gradients.append(fc_gradient)
 
             return CEL_value, layer_gradients
+        
+
+
+def evaluate_model_on(model, dataset):
+    total_loss = 0
+    for x, y in dataset:
+        total_loss += model.forward(x, y, requires_grad=False)
+    return total_loss/len(dataset)
+     
+
+
+def train_model_with_SGD (model, 
+                         training_set,
+                         validation_set,
+                         lr: float, 
+                         n_epochs: int, 
+                         sgd_lr_multiplier: float = 0.95
+                        ):
+    
+
+    print ("_" * 50)
+    print (f"Initial LR = {lr}")
+    print (f"LR multipliter per epoch = {sgd_lr_multiplier:.5f}")
+    print (f"Number of conv layers = {model.n_conv}")
+    print (f"Number of channels in conv layers = {model.n_channels}")
+    print ("_" * 50)
+    train_loss_history = []
+    val_loss_history = []
+
+    for epoch_index in range(1, n_epochs + 1):
+
+        print (f"Epoch {epoch_index}/{n_epochs}")
+        print (f"current SGD learning rate = {lr}")
+        total_train_loss = 0
+
+        #shuffle training set in a reproducible manner
+        random.seed(42 + epoch_index)
+        random.shuffle(training_set) 
+
+        for x,y in training_set:
+            start = time.time()
+            #get the CEL gradient from the forward pass directly
+            loss, layer_grads = model.forward(x, y, requires_grad=True)
+         
+            #do SGD step
+            model.fc -= lr*layer_grads[-1]
+
+            for i in range(model.n_conv):
+                #grad_norm = np.linalg.norm(layer_grads[i], ord=2)
+                #if grad_norm > 1:
+                #    layer_grads[i] /= grad_norm
+                model.layers[i] -= lr*layer_grads[i]
+            end = time.time()
+            print(f"Elapsed time per SGD iter: {end - start:.6f} seconds")
+            total_train_loss += loss
+          
+        #decrease lr each epoch
+        lr *= sgd_lr_multiplier
+        
+        #compute, print and save avg loss per epoch
+        avg_train_loss = total_train_loss / len(training_set)
+        print (f"average train loss = {avg_train_loss:.5f}")
+        train_loss_history.append(avg_train_loss)
+ 
+        avg_val_loss = evaluate_model_on (model, validation_set)
+        print (f"average val loss = {avg_val_loss:.5f}")
+        val_loss_history.append(avg_val_loss)
+        print ("_" * 50)
+
+    return model, train_loss_history, val_loss_history
+
             
        
             
@@ -219,14 +309,21 @@ np.set_printoptions(
 
 cnn = CNN()
 
+
 for x, y in train_set:
     _, _ = cnn.forward(x, y, requires_grad=True)
     break
 
-#print (cnn.n_conv)
-
-#for i in cnn.layers:
-#        print (i)
-#        print (i.shape)
-#        print ("_" * 50)
-
+SGD_LEARNING_RATE = 2e-3
+LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
+N_EPOCHS = 10
+mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (cnn,
+                                            list(train_set),
+                                            list(val_set),
+                                            SGD_LEARNING_RATE,
+                                            N_EPOCHS,
+                                            LEARNING_RATE_MULTIPLIER_PER_EPOCH
+                                            )
+avg_test_loss = evaluate_model_on(mlp, list(test_set))
+print (f"TEST LOSS = {avg_test_loss:.5f}")
+print ("_" * 50)
