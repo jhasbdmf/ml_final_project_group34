@@ -5,10 +5,23 @@ from numpy.lib.stride_tricks import sliding_window_view
 import random
 import time
 
+def maxpool2d_grayscale(image, pool_size=2, stride=2):
+    # If image has a single channel dimension, remove it
+    if image.ndim == 3 and image.shape[0] == 1:
+        image = image[0]
+    
+    H, W = image.shape
+  
+    patches = sliding_window_view(image, (pool_size, pool_size))
+    patches = patches[::stride, ::stride, :, :]
+    pooled = patches.max(axis=(-2, -1))
+    return pooled
+
 
 
 class CNN ():
-    def __init__(self, in_dim: int = 48, out_dim: int=7, kernel_size: int = 5, n_channels: int = 16, n_conv_layers: int = 25):
+    #def __init__(self, in_dim: int = 48, out_dim: int=7, kernel_size: int = 5, n_channels: int = 2, n_conv_layers: int = 5):
+    def __init__(self, in_dim: int = 24, out_dim: int=7, kernel_size: int = 3, n_channels: int = 4, n_chan_mult: int = 1.1, n_conv_layers: int = 5):
         
         rng = np.random.default_rng(42)
 
@@ -44,8 +57,11 @@ class CNN ():
             self.layers.append(rng.normal(loc=0.0, scale=std, size=(self.n_channels[i+1], self.n_channels[i], self.kernel_size, self.kernel_size)))
 
             #increase n_channels across layers gradually 
-            #n_channels = math.ceil(1.1*n_channels)
-            n_channels = math.trunc(1.1*n_channels)
+            n_channels = math.ceil(n_chan_mult*n_channels)
+            #n_channels = math.trunc(1.1*n_channels)
+            #if n_channels < 256:
+            #    n_channels *= 2
+
         
         
 
@@ -98,15 +114,21 @@ class CNN ():
    
     def _ReLU (self, x):
         return np.maximum(x, 0, out=x)
-    
+    """
     def _get_normalized_logits_with_softmax_denom(self, logits):
         softmax_denominator = np.sum(np.exp(logits))
         return np.exp(logits) / softmax_denominator, softmax_denominator
-       
+    """
+    def _get_normalized_logits_with_softmax_denom(self, logits):
+        logits = logits - np.max(logits)
+        exp_logits = np.exp(logits)
+        softmax_denominator = np.sum(exp_logits)
+        return exp_logits / softmax_denominator, softmax_denominator
+   
     def forward (self, inputs, target_value=None, requires_grad = False):
         if len(inputs.shape) == 2:
             inputs = np.expand_dims(inputs, axis=0)
-
+  
         layer_activations = [inputs]
         for i in range(self.n_conv):
             cross_correlation = self._cross_correlation_2D_of_with(self.layers[i], layer_activations[i])
@@ -140,7 +162,9 @@ class CNN ():
             
             #CEL is equal to -ln(exp(logits[target_value])/softmax_denom))
             #the formula below is algebraically equivalent to the one above
-            CEL_value = -logits[target_value] + np.log(softmax_denom)
+            #CEL_value = -logits[target_value] + np.log(softmax_denom)
+            # normalized logits for stable computation
+            CEL_value = -np.log(normalized_logits[target_value])
             
         #if no gradient is required,
         #then just return CEL
@@ -222,7 +246,7 @@ def train_model_with_SGD (model,
     print (f"Initial LR = {lr}")
     print (f"LR multipliter per epoch = {sgd_lr_multiplier:.5f}")
     print (f"Number of conv layers = {model.n_conv}")
-    print (f"Number of channels in conv layers = {model.n_channels}")
+    print (f"Number of channels in conv layers = {model.n_channels[1:]}")
     print ("_" * 50)
     train_loss_history = []
     val_loss_history = []
@@ -236,22 +260,27 @@ def train_model_with_SGD (model,
         #shuffle training set in a reproducible manner
         random.seed(42 + epoch_index)
         random.shuffle(training_set) 
-
+        start1 = time.time()
         for x,y in training_set:
-            start = time.time()
+            #start2 = time.time()
             #get the CEL gradient from the forward pass directly
             loss, layer_grads = model.forward(x, y, requires_grad=True)
          
             #do SGD step
             model.fc -= lr*layer_grads[-1]
+            
+            model.layers = [layer - lr * grad for layer, grad in zip(model.layers, layer_grads[:-1])]
+                 
+            #for i in range(model.n_conv):
+            #   model.layers[i] -= lr*layer_grads[i]
+           
 
-            for i in range(model.n_conv):
-          
-                model.layers[i] -= lr*layer_grads[i]
-            end = time.time()
-            print(f"Elapsed time per SGD iter: {end - start:.6f} seconds")
+       
+            #end = time.time()
+            #rint(f"Elapsed time per SGD iter: {end - start2} seconds")
             total_train_loss += loss
-          
+        end = time.time()
+        print(f"Elapsed time per epoch iter: {end - start1} seconds")
         #decrease lr each epoch
         lr *= sgd_lr_multiplier
         
@@ -274,6 +303,11 @@ def train_model_with_SGD (model,
 
 train_set, val_set, test_set = preprocess_dataset_for("cnn")
 
+train_set = [(maxpool2d_grayscale(img), label) for img, label in train_set]
+val_set   = [(maxpool2d_grayscale(img), label) for img, label in val_set]
+test_set  = [(maxpool2d_grayscale(img), label) for img, label in test_set]
+
+
 
 
 np.set_printoptions(threshold=np.inf)
@@ -288,16 +322,15 @@ np.set_printoptions(
 )
 
 
+image_height = train_set[0][0].shape[0]
 
-cnn = CNN()
+cnn = CNN(in_dim = image_height)
 
 
-for x, y in train_set:
-    _, _ = cnn.forward(x, y, requires_grad=True)
-    break
 
-SGD_LEARNING_RATE = 2e-3
-LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.99
+
+SGD_LEARNING_RATE = 15e-4
+LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.97
 N_EPOCHS = 10
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (cnn,
                                             list(train_set),
