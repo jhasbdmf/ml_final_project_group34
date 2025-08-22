@@ -4,6 +4,12 @@ import math
 from numpy.lib.stride_tricks import sliding_window_view
 import random
 import time
+import copy
+import datetime
+
+def log_message(message):
+    with open(filename, "a") as f:
+        f.write(message + "\n")
 
 def maxpool2d_grayscale(image, pool_size=2, stride=2):
     # If image has a single channel dimension, remove it
@@ -21,7 +27,7 @@ def maxpool2d_grayscale(image, pool_size=2, stride=2):
 
 class CNN ():
     #def __init__(self, in_dim: int = 48, out_dim: int=7, kernel_size: int = 5, n_channels: int = 2, n_conv_layers: int = 5):
-    def __init__(self, in_dim: int = 24, out_dim: int=7, kernel_size: int = 3, n_channels: int = 4, n_chan_mult: int = 1.1, n_conv_layers: int = 5):
+    def __init__(self, in_dim: int = 24, out_dim: int=7, kernel_size: int = 3, n_channels: int = 1, n_chan_mult: int = 1.1, n_conv_layers: int = 3):
         
         rng = np.random.default_rng(42)
 
@@ -248,6 +254,14 @@ def train_model_with_SGD (model,
     print (f"Number of conv layers = {model.n_conv}")
     print (f"Number of channels in conv layers = {model.n_channels[1:]}")
     print ("_" * 50)
+
+    log_message ("_" * 50)
+    log_message (f"Initial LR = {lr}")
+    log_message (f"LR multipliter per epoch = {sgd_lr_multiplier:.5f}")
+    log_message (f"Number of conv layers = {model.n_conv}")
+    log_message (f"Number of channels in conv layers = {model.n_channels[1:]}")
+    log_message ("_" * 50)
+
     train_loss_history = []
     val_loss_history = []
 
@@ -255,6 +269,10 @@ def train_model_with_SGD (model,
 
         print (f"Epoch {epoch_index}/{n_epochs}")
         print (f"current SGD learning rate = {lr}")
+
+        log_message (f"Epoch {epoch_index}/{n_epochs}")
+        log_message (f"current SGD learning rate = {lr}")
+
         total_train_loss = 0
 
         #shuffle training set in a reproducible manner
@@ -281,24 +299,33 @@ def train_model_with_SGD (model,
             total_train_loss += loss
         end = time.time()
         print(f"Elapsed time per epoch iter: {end - start1} seconds")
+        
         #decrease lr each epoch
         lr *= sgd_lr_multiplier
         
         #compute, print and save avg loss per epoch
         avg_train_loss = total_train_loss / len(training_set)
         print (f"average train loss = {avg_train_loss:.5f}")
+        log_message (f"average train loss = {avg_train_loss:.5f}")
         train_loss_history.append(avg_train_loss)
  
         avg_val_loss = evaluate_model_on (model, validation_set)
         print (f"average val loss = {avg_val_loss:.5f}")
+        log_message (f"average val loss = {avg_val_loss:.5f}")
         val_loss_history.append(avg_val_loss)
         print ("_" * 50)
+        log_message ("_" * 50)
 
     return model, train_loss_history, val_loss_history
 
             
        
             
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+filename = f"cnn_grid_search_log_{timestamp}.txt"
+
+with open(filename, "w") as f:
+    f.write("=== New Log Start ===\n")
        
 
 train_set, val_set, test_set = preprocess_dataset_for("cnn")
@@ -331,7 +358,7 @@ cnn = CNN(in_dim = image_height)
 
 SGD_LEARNING_RATE = 15e-4
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.97
-N_EPOCHS = 10
+N_EPOCHS = 2
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (cnn,
                                             list(train_set),
                                             list(val_set),
@@ -341,4 +368,6 @@ mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (cnn,
                                             )
 avg_test_loss = evaluate_model_on(mlp, list(test_set))
 print (f"TEST LOSS = {avg_test_loss:.5f}")
+log_message (f"TEST LOSS = {avg_test_loss:.5f}")
 print ("_" * 50)
+log_message ("_" * 50)

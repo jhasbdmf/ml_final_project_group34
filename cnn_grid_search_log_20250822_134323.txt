@@ -1,0 +1,19 @@
+=== New Log Start ===
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.97000
+Number of conv layers = 3
+Number of channels in conv layers = [1, 2, 3]
+__________________________________________________
+Epoch 1/2
+current SGD learning rate = 0.0015
+average train loss = 1.74282
+average val loss = 1.67955
+__________________________________________________
+Epoch 2/2
+current SGD learning rate = 0.001455
+average train loss = 1.67904
+average val loss = 1.66536
+__________________________________________________
+TEST LOSS = 1.67483
+__________________________________________________
