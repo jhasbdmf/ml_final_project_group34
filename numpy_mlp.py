@@ -2,6 +2,7 @@ import numpy as np
 import random
 from utilities import preprocess_dataset_for
 import matplotlib.pyplot as plt
+import copy
 
 
 class MLP ():
@@ -173,6 +174,9 @@ def train_model_with_SGD (model,
     train_loss_history = []
     val_loss_history = []
 
+    best_avg_epoch_loss = 1000
+    #best_model = copy.deepcopy(model)
+
     for epoch_index in range(1, n_epochs + 1):
 
         print (f"Epoch {epoch_index}/{n_epochs}")
@@ -208,9 +212,16 @@ def train_model_with_SGD (model,
         avg_val_loss = evaluate_model_on (model, validation_set)
         print (f"average val loss = {avg_val_loss:.5f}")
         val_loss_history.append(avg_val_loss)
-        print ("_" * 50)
+        
+        if avg_val_loss < best_avg_epoch_loss:
+            best_avg_epoch_loss = avg_val_loss
+            best_model = copy.deepcopy(model)
 
-    return model, train_loss_history, val_loss_history
+        print ("_" * 50)
+    if best_model is not None:
+        return best_model, train_loss_history, val_loss_history
+    else:
+        model, train_loss_history, val_loss_history
 
 def grid_search(hyperparameters: dict,
                 train_set: list,
@@ -281,12 +292,12 @@ np.set_printoptions(
 
 hyperparameters_to_tune = {
     #'lr': [0.01, 0.005, 0.001],
-    'lr': [0.01],
+    'lr': [0.015],
     'lr_multiplier': [0.95],
     #'hidden_dim': [32, 64, 128],
     'hidden_dim': [8],
     #'n_layers': [1, 4, 7]
-    'n_layers': [1]
+    'n_layers': [3]
     }
 
 N_EPOCHS = 10
