@@ -266,6 +266,8 @@ def train_model_with_SGD (model,
     train_loss_history = []
     val_loss_history = []
 
+    best_avg_epoch_loss = 1000
+
     for epoch_index in range(1, n_epochs + 1):
 
         print (f"Epoch {epoch_index}/{n_epochs}")
@@ -311,13 +313,27 @@ def train_model_with_SGD (model,
         train_loss_history.append(avg_train_loss)
  
         avg_val_loss = evaluate_model_on (model, validation_set)
+
+        if avg_val_loss < best_avg_epoch_loss:
+            best_avg_epoch_loss = avg_val_loss
+            best_model = copy.deepcopy(model)
+
+
+
         print (f"average val loss = {avg_val_loss:.5f}")
         log_message (f"average val loss = {avg_val_loss:.5f}")
         val_loss_history.append(avg_val_loss)
         print ("_" * 50)
         log_message ("_" * 50)
 
-    return model, train_loss_history, val_loss_history
+
+
+
+    if best_model is not None:
+        return best_model, train_loss_history, val_loss_history
+    else:
+        return model, train_loss_history, val_loss_history
+    #return model, train_loss_history, val_loss_history
 
             
        
@@ -357,7 +373,7 @@ cnn = CNN(in_dim = image_height)
 
 
 
-SGD_LEARNING_RATE = 15e-4
+SGD_LEARNING_RATE = 15e-3
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.97
 N_EPOCHS = 2
 mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (cnn,
