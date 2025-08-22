@@ -247,7 +247,7 @@ def train_model_with_SGD (model,
     if best_model is not None:
         return best_model, train_loss_history, val_loss_history
     else:
-        model, train_loss_history, val_loss_history
+        return model, train_loss_history, val_loss_history
 
 def grid_search(hyperparameters: dict,
                 train_set: list,
