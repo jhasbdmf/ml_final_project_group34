@@ -359,7 +359,7 @@ def grid_search(hyperparameters: dict,
 
     lr = SGD_LEARNING_RATE
     lr_multiplier = LEARNING_RATE_MULTIPLIER_PER_EPOCH
-    n_channels = 1
+    n_channels = 4
 
 
     for n_conv in n_conv_layers:
@@ -455,11 +455,11 @@ cnn = CNN(in_dim = image_height)
 
 SGD_LEARNING_RATE = 15e-4
 LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.95
-N_EPOCHS = 2
+N_EPOCHS = 5
 
 hyperparameters_to_tune = {
-    'n_conv_layers': [1, 2],
-    'n_chan_mult': [1.1, 1.3],
+    'n_conv_layers': [1, 3, 6],
+    'n_chan_mult': [1.1, 1.2],
     #'lr': [0.0015],
     #'hidden_dim': [16, 32, 64],
     #'hidden_dim': [8],
