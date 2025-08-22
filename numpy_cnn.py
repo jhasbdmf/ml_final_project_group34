@@ -416,55 +416,6 @@ def grid_search(hyperparameters: dict,
             print (f"min best val loss so far = {best_loss}")
             log_message (f"min best val loss so far = {best_loss}")
         
-
-    """
-    # iterate over all combinations
-    for lr in learning_rate:
-        for lr_multiplier in lr_multipliers:
-            for hidden_dim in hidden_dims:
-                for n_layers in n_layers_list:
-                    print ("_" * 100)
-                    print(f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
-                          f"hidden_dim={hidden_dim}, n_layers={n_layers}")
-                    
-                    log_message ("_" * 100)
-                    log_message (f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
-                          f"hidden_dim={hidden_dim}, n_layers={n_layers}")
-
-                    # create a new model for each combination
-                    model = MLP(n_layers=n_layers, hidden_dim=hidden_dim)
-
-                    # train the model and track validation loss history
-                    trained_model, train_loss_history, val_loss_history = train_model_with_SGD(
-                        model,
-                        train_set,
-                        validation_set,
-                        lr=lr,
-                        n_epochs=n_epochs,
-                        sgd_lr_multiplier=lr_multiplier
-                    )
-
-                    # find the best validation loss
-                    min_val_loss = min(val_loss_history)
-                    #print (f"min_val_loss = {min_val_loss:.5f}")
-
-                    # check if new combination is best
-                    if min_val_loss < best_loss:
-                        best_loss = min_val_loss
-                        best_params = {
-                            'lr': lr,
-                            'lr_multiplier': lr_multiplier,
-                            'hidden_dim': hidden_dim,
-                            'n_layers': n_layers
-                        }
-                        best_model = trained_model
-                        best_train_loss_history = train_loss_history
-                        best_val_loss_history = val_loss_history
-                    
-                    print (f"min best val loss so far = {best_loss}")
-                    log_message (f"min best val loss so far = {best_loss}")
-              
-            """
     return best_train_loss_history, best_val_loss_history, best_model, best_params, best_loss
 
        
