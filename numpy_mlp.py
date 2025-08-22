@@ -3,6 +3,15 @@ import random
 from utilities import preprocess_dataset_for
 import matplotlib.pyplot as plt
 import copy
+import datetime
+import os
+
+
+
+
+def log_message(message):
+    with open(filename, "a") as f:
+        f.write(message + "\n")
 
 
 class MLP ():
@@ -171,6 +180,15 @@ def train_model_with_SGD (model,
     print (f"Number of layers = {model.n_layers}")
     print (f"Dimensionality of hidden layers = {model.hidden_dim}")
     print ("_" * 50)
+
+    log_message ("_" * 50)
+    log_message (f"Initial LR = {lr}")
+    log_message (f"LR multipliter per epoch = {sgd_lr_multiplier:.5f}")
+    log_message (f"Number of layers = {model.n_layers}")
+    log_message (f"Dimensionality of hidden layers = {model.hidden_dim}")
+    log_message ("_" * 50)
+
+
     train_loss_history = []
     val_loss_history = []
 
@@ -181,6 +199,11 @@ def train_model_with_SGD (model,
 
         print (f"Epoch {epoch_index}/{n_epochs}")
         print (f"current SGD learning rate = {lr}")
+
+        log_message (f"Epoch {epoch_index}/{n_epochs}")
+
+        log_message (f"current SGD learning rate = {lr}")
+
         total_train_loss = 0
 
         #shuffle training set in a reproducible manner
@@ -207,10 +230,12 @@ def train_model_with_SGD (model,
         #compute, print and save avg loss per epoch
         avg_train_loss = total_train_loss / len(training_set)
         print (f"average train loss = {avg_train_loss:.5f}")
+        log_message (f"average train loss = {avg_train_loss:.5f}")
         train_loss_history.append(avg_train_loss)
  
         avg_val_loss = evaluate_model_on (model, validation_set)
         print (f"average val loss = {avg_val_loss:.5f}")
+        log_message (f"average val loss = {avg_val_loss:.5f}")
         val_loss_history.append(avg_val_loss)
         
         if avg_val_loss < best_avg_epoch_loss:
@@ -218,6 +243,7 @@ def train_model_with_SGD (model,
             best_model = copy.deepcopy(model)
 
         print ("_" * 50)
+        log_message (f"average val loss = {avg_val_loss:.5f}")
     if best_model is not None:
         return best_model, train_loss_history, val_loss_history
     else:
@@ -244,6 +270,10 @@ def grid_search(hyperparameters: dict,
                 for n_layers in n_layers_list:
                     print ("_" * 100)
                     print(f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
+                          f"hidden_dim={hidden_dim}, n_layers={n_layers}")
+                    
+                    log_message ("_" * 100)
+                    log_message (f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
                           f"hidden_dim={hidden_dim}, n_layers={n_layers}")
 
                     # create a new model for each combination
@@ -277,8 +307,18 @@ def grid_search(hyperparameters: dict,
                         best_val_loss_history = val_loss_history
                     
                     print (f"min best val loss so far = {best_loss}")
+                    log_message (f"min best val loss so far = {best_loss}")
+              
 
     return best_train_loss_history, best_val_loss_history, best_model, best_params, best_loss
+
+
+timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+filename = f"mlp_grid_search_log_{timestamp}.txt"
+
+with open(filename, "w") as f:
+    f.write("=== New Log Start ===\n")
+
 
 
 train_set, val_set, test_set = preprocess_dataset_for("mlp")
@@ -291,13 +331,13 @@ np.set_printoptions(
 )
 
 hyperparameters_to_tune = {
-    #'lr': [0.01, 0.005, 0.001],
-    'lr': [0.015],
+    'lr': [0.001, 0.005, 0.01],
+    #'lr': [0.0015],
     'lr_multiplier': [0.95],
-    #'hidden_dim': [32, 64, 128],
+    #'hidden_dim': [16, 32, 64],
     'hidden_dim': [8],
     #'n_layers': [1, 4, 7]
-    'n_layers': [3]
+    'n_layers': [2]
     }
 
 N_EPOCHS = 10
@@ -330,6 +370,11 @@ avg_test_loss = evaluate_model_on(best_model, list(test_set))
 print (f"best hyperparams are {best_params}")
 print (f"VAL LOSS of best model is = {best_loss:.5f}")
 print (f"TEST LOSS of best model is = {avg_test_loss:.5f}")
+
+log_message ("_" * 100)
+log_message (f"best hyperparams are {best_params}")
+log_message (f"VAL LOSS of best model is = {best_loss:.5f}")
+log_message (f"TEST LOSS of best model is = {avg_test_loss:.5f}")
 
 
 # Indices
