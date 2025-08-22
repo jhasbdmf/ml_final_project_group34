@@ -280,12 +280,13 @@ np.set_printoptions(
 )
 
 hyperparameters_to_tune = {
-    'lr': [0.01, 0.005, 0.001],
+    #'lr': [0.01, 0.005, 0.001],
+    'lr': [0.01],
     'lr_multiplier': [0.95],
-    'hidden_dim': [32, 64, 128],
-    #'hidden_dim': [32],
-    'n_layers': [1, 4, 7]
-    #'n_layers': [1]
+    #'hidden_dim': [32, 64, 128],
+    'hidden_dim': [8],
+    #'n_layers': [1, 4, 7]
+    'n_layers': [1]
     }
 
 N_EPOCHS = 10
@@ -333,6 +334,9 @@ plt.ylabel('Loss')
 plt.title('Train and val loss vs epochs')
 plt.legend()
 plt.grid(True)
+
+plt.savefig("mlp plot.png", dpi=300, bbox_inches='tight')
+
 plt.show()
 
 print ("_" * 50)
