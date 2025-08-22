@@ -403,7 +403,7 @@ plt.title('Train and val loss vs epochs')
 plt.legend()
 plt.grid(True)
 
-plt.savefig("best_cnn_loss_history.png", dpi=300, bbox_inches='tight')
+plt.savefig(f"best_cnn_loss_history_{timestamp}.png", dpi=300, bbox_inches='tight')
 
 plt.show()
 
