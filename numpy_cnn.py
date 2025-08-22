@@ -3,6 +3,7 @@ import numpy as np
 import math
 from numpy.lib.stride_tricks import sliding_window_view
 import random
+import matplotlib.pyplot as plt
 import time
 import copy
 import datetime
@@ -371,3 +372,23 @@ print (f"TEST LOSS = {avg_test_loss:.5f}")
 log_message (f"TEST LOSS = {avg_test_loss:.5f}")
 print ("_" * 50)
 log_message ("_" * 50)
+
+# Indices
+indices1 = range(len(train_loss_history_SGD))  
+indices2 = range(len(val_loss_history_SGD)) 
+
+# Plot both
+plt.plot(indices1, train_loss_history_SGD, marker='o', linestyle='-', label='train loss hist')
+plt.plot(indices2, val_loss_history_SGD, marker='s', linestyle='--', label='val loss hist')
+
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.title('Train and val loss vs epochs')
+plt.legend()
+plt.grid(True)
+
+plt.savefig("best_cnn_loss_history.png", dpi=300, bbox_inches='tight')
+
+plt.show()
+
+print ("_" * 50)
