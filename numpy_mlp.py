@@ -334,10 +334,10 @@ hyperparameters_to_tune = {
     'lr': [0.001, 0.005, 0.01],
     #'lr': [0.0015],
     'lr_multiplier': [0.95],
-    #'hidden_dim': [16, 32, 64],
-    'hidden_dim': [8],
-    #'n_layers': [1, 4, 7]
-    'n_layers': [2]
+    'hidden_dim': [16, 32, 64],
+    #'hidden_dim': [8],
+    'n_layers': [1, 4, 7]
+    #'n_layers': [2]
     }
 
 N_EPOCHS = 10

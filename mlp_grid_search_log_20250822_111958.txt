@@ -1,0 +1,1598 @@
+=== New Log Start ===
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=16, n_layers=1
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 4.79141
+average val loss = 3.68793
+average val loss = 3.68793
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 3.44508
+average val loss = 3.29277
+average val loss = 3.29277
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 3.06272
+average val loss = 3.25519
+average val loss = 3.25519
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 2.84514
+average val loss = 2.91317
+average val loss = 2.91317
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 2.69592
+average val loss = 2.76931
+average val loss = 2.76931
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 2.57134
+average val loss = 2.77601
+average val loss = 2.77601
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 2.48497
+average val loss = 2.59805
+average val loss = 2.59805
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 2.40256
+average val loss = 2.54187
+average val loss = 2.54187
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 2.33792
+average val loss = 2.69758
+average val loss = 2.69758
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 2.28489
+average val loss = 2.53143
+average val loss = 2.53143
+min best val loss so far = 2.5314344022634407
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=16, n_layers=4
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 1.82565
+average val loss = 1.79082
+average val loss = 1.79082
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 1.76370
+average val loss = 1.74438
+average val loss = 1.74438
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 1.72809
+average val loss = 1.71452
+average val loss = 1.71452
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 1.70242
+average val loss = 1.70101
+average val loss = 1.70101
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 1.68406
+average val loss = 1.68670
+average val loss = 1.68670
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 1.66976
+average val loss = 1.67004
+average val loss = 1.67004
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 1.65912
+average val loss = 1.65911
+average val loss = 1.65911
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 1.64859
+average val loss = 1.65807
+average val loss = 1.65807
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 1.63983
+average val loss = 1.64914
+average val loss = 1.64914
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 1.63129
+average val loss = 1.64713
+average val loss = 1.64713
+min best val loss so far = 1.6471302209380534
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=16, n_layers=7
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 1.81662
+average val loss = 1.78455
+average val loss = 1.78455
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 1.76671
+average val loss = 1.75503
+average val loss = 1.75503
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 1.73749
+average val loss = 1.73270
+average val loss = 1.73270
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 1.71403
+average val loss = 1.71988
+average val loss = 1.71988
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 1.69595
+average val loss = 1.70651
+average val loss = 1.70651
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 1.68249
+average val loss = 1.69028
+average val loss = 1.69028
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 1.67119
+average val loss = 1.68137
+average val loss = 1.68137
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 1.66227
+average val loss = 1.67890
+average val loss = 1.67890
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 1.65351
+average val loss = 1.67865
+average val loss = 1.67865
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 1.64606
+average val loss = 1.67681
+average val loss = 1.67681
+min best val loss so far = 1.6471302209380534
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=32, n_layers=1
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 5.31276
+average val loss = 4.11327
+average val loss = 4.11327
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 3.83060
+average val loss = 3.70473
+average val loss = 3.70473
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 3.40933
+average val loss = 3.46158
+average val loss = 3.46158
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 3.15123
+average val loss = 3.14213
+average val loss = 3.14213
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 2.98568
+average val loss = 3.32604
+average val loss = 3.32604
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 2.84830
+average val loss = 3.00752
+average val loss = 3.00752
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 2.74731
+average val loss = 3.03377
+average val loss = 3.03377
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 2.66540
+average val loss = 2.98736
+average val loss = 2.98736
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 2.58345
+average val loss = 2.82882
+average val loss = 2.82882
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 2.52776
+average val loss = 2.85640
+average val loss = 2.85640
+min best val loss so far = 1.6471302209380534
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=32, n_layers=4
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 1.84319
+average val loss = 1.75418
+average val loss = 1.75418
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 1.73291
+average val loss = 1.72127
+average val loss = 1.72127
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 1.69322
+average val loss = 1.68405
+average val loss = 1.68405
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 1.66822
+average val loss = 1.67155
+average val loss = 1.67155
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 1.64896
+average val loss = 1.65535
+average val loss = 1.65535
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 1.63215
+average val loss = 1.65117
+average val loss = 1.65117
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 1.61982
+average val loss = 1.64247
+average val loss = 1.64247
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 1.60672
+average val loss = 1.63861
+average val loss = 1.63861
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 1.59639
+average val loss = 1.63147
+average val loss = 1.63147
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 1.58528
+average val loss = 1.63087
+average val loss = 1.63087
+min best val loss so far = 1.6308653027296625
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=32, n_layers=7
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 1.81066
+average val loss = 1.76194
+average val loss = 1.76194
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 1.74719
+average val loss = 1.72204
+average val loss = 1.72204
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 1.71166
+average val loss = 1.70038
+average val loss = 1.70038
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 1.68577
+average val loss = 1.68512
+average val loss = 1.68512
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 1.66549
+average val loss = 1.67405
+average val loss = 1.67405
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 1.65053
+average val loss = 1.66432
+average val loss = 1.66432
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 1.63527
+average val loss = 1.66196
+average val loss = 1.66196
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 1.62225
+average val loss = 1.65428
+average val loss = 1.65428
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 1.60924
+average val loss = 1.65851
+average val loss = 1.65851
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 1.59785
+average val loss = 1.65180
+average val loss = 1.65180
+min best val loss so far = 1.6308653027296625
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=64, n_layers=1
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 5.93043
+average val loss = 4.69761
+average val loss = 4.69761
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 4.16660
+average val loss = 3.92984
+average val loss = 3.92984
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 3.70740
+average val loss = 3.75738
+average val loss = 3.75738
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 3.45635
+average val loss = 3.62132
+average val loss = 3.62132
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 3.26954
+average val loss = 3.45569
+average val loss = 3.45569
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 3.12776
+average val loss = 3.39968
+average val loss = 3.39968
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 3.01644
+average val loss = 3.15123
+average val loss = 3.15123
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 2.92024
+average val loss = 3.31526
+average val loss = 3.31526
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 2.84313
+average val loss = 3.14987
+average val loss = 3.14987
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 2.77409
+average val loss = 3.06696
+average val loss = 3.06696
+min best val loss so far = 1.6308653027296625
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=64, n_layers=4
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 1.86148
+average val loss = 1.75070
+average val loss = 1.75070
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 1.72008
+average val loss = 1.71735
+average val loss = 1.71735
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 1.67433
+average val loss = 1.69321
+average val loss = 1.69321
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 1.64132
+average val loss = 1.67484
+average val loss = 1.67484
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 1.61330
+average val loss = 1.66770
+average val loss = 1.66770
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 1.58596
+average val loss = 1.67002
+average val loss = 1.67002
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 1.56207
+average val loss = 1.66482
+average val loss = 1.66482
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 1.53959
+average val loss = 1.65377
+average val loss = 1.65377
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 1.51706
+average val loss = 1.65515
+average val loss = 1.65515
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 1.49797
+average val loss = 1.66148
+average val loss = 1.66148
+min best val loss so far = 1.6308653027296625
+____________________________________________________________________________________________________
+Testing: lr=0.001, lr_multiplier=0.95, hidden_dim=64, n_layers=7
+__________________________________________________
+Initial LR = 0.001
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.001
+average train loss = 1.81154
+average val loss = 1.73456
+average val loss = 1.73456
+Epoch 2/10
+current SGD learning rate = 0.00095
+average train loss = 1.72417
+average val loss = 1.70320
+average val loss = 1.70320
+Epoch 3/10
+current SGD learning rate = 0.0009025
+average train loss = 1.68805
+average val loss = 1.68670
+average val loss = 1.68670
+Epoch 4/10
+current SGD learning rate = 0.000857375
+average train loss = 1.65599
+average val loss = 1.65934
+average val loss = 1.65934
+Epoch 5/10
+current SGD learning rate = 0.0008145062499999999
+average train loss = 1.62968
+average val loss = 1.64929
+average val loss = 1.64929
+Epoch 6/10
+current SGD learning rate = 0.0007737809374999998
+average train loss = 1.60359
+average val loss = 1.64897
+average val loss = 1.64897
+Epoch 7/10
+current SGD learning rate = 0.0007350918906249997
+average train loss = 1.57971
+average val loss = 1.63576
+average val loss = 1.63576
+Epoch 8/10
+current SGD learning rate = 0.0006983372960937497
+average train loss = 1.55716
+average val loss = 1.63092
+average val loss = 1.63092
+Epoch 9/10
+current SGD learning rate = 0.0006634204312890621
+average train loss = 1.53635
+average val loss = 1.62290
+average val loss = 1.62290
+Epoch 10/10
+current SGD learning rate = 0.000630249409724609
+average train loss = 1.51431
+average val loss = 1.63312
+average val loss = 1.63312
+min best val loss so far = 1.6229021079435646
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=16, n_layers=1
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 8.73669
+average val loss = 10.99907
+average val loss = 10.99907
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 7.65289
+average val loss = 7.22386
+average val loss = 7.22386
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 7.11155
+average val loss = 6.87040
+average val loss = 6.87040
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 6.57780
+average val loss = 6.60964
+average val loss = 6.60964
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 6.23647
+average val loss = 6.24495
+average val loss = 6.24495
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 5.84659
+average val loss = 6.27086
+average val loss = 6.27086
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 5.52802
+average val loss = 7.10070
+average val loss = 7.10070
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 5.22065
+average val loss = 5.35004
+average val loss = 5.35004
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 4.99685
+average val loss = 5.99640
+average val loss = 5.99640
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 4.74992
+average val loss = 5.26761
+average val loss = 5.26761
+min best val loss so far = 1.6229021079435646
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=16, n_layers=4
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 1.79319
+average val loss = 1.73192
+average val loss = 1.73192
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 1.71414
+average val loss = 1.69101
+average val loss = 1.69101
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 1.68222
+average val loss = 1.68452
+average val loss = 1.68452
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 1.65573
+average val loss = 1.66481
+average val loss = 1.66481
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 1.63652
+average val loss = 1.64110
+average val loss = 1.64110
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 1.62062
+average val loss = 1.63184
+average val loss = 1.63184
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 1.60867
+average val loss = 1.61624
+average val loss = 1.61624
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 1.59512
+average val loss = 1.63020
+average val loss = 1.63020
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 1.57801
+average val loss = 1.62557
+average val loss = 1.62557
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 1.56827
+average val loss = 1.62623
+average val loss = 1.62623
+min best val loss so far = 1.6162358955733522
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=16, n_layers=7
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 1.80037
+average val loss = 1.75062
+average val loss = 1.75062
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 1.72534
+average val loss = 1.70999
+average val loss = 1.70999
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 1.69508
+average val loss = 1.68315
+average val loss = 1.68315
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 1.67651
+average val loss = 1.66636
+average val loss = 1.66636
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 1.65654
+average val loss = 1.65952
+average val loss = 1.65952
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 1.64071
+average val loss = 1.66203
+average val loss = 1.66203
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 1.62714
+average val loss = 1.66971
+average val loss = 1.66971
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 1.61356
+average val loss = 1.66120
+average val loss = 1.66120
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 1.60370
+average val loss = 1.62822
+average val loss = 1.62822
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 1.59094
+average val loss = 1.62760
+average val loss = 1.62760
+min best val loss so far = 1.6162358955733522
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=32, n_layers=1
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 9.02377
+average val loss = 8.92994
+average val loss = 8.92994
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 7.83154
+average val loss = 7.83482
+average val loss = 7.83482
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 7.17482
+average val loss = 6.82564
+average val loss = 6.82564
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 6.75105
+average val loss = 7.53752
+average val loss = 7.53752
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 6.31528
+average val loss = 7.52150
+average val loss = 7.52150
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 5.93274
+average val loss = 6.13590
+average val loss = 6.13590
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 5.65345
+average val loss = 7.25540
+average val loss = 7.25540
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 5.36541
+average val loss = 6.10551
+average val loss = 6.10551
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 5.07574
+average val loss = 6.81344
+average val loss = 6.81344
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 4.82953
+average val loss = 5.78543
+average val loss = 5.78543
+min best val loss so far = 1.6162358955733522
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=32, n_layers=4
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 1.79807
+average val loss = 1.71406
+average val loss = 1.71406
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 1.69912
+average val loss = 1.67246
+average val loss = 1.67246
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 1.66165
+average val loss = 1.67857
+average val loss = 1.67857
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 1.63412
+average val loss = 1.63350
+average val loss = 1.63350
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 1.61357
+average val loss = 1.63718
+average val loss = 1.63718
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 1.59139
+average val loss = 1.63513
+average val loss = 1.63513
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 1.57513
+average val loss = 1.63391
+average val loss = 1.63391
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 1.55652
+average val loss = 1.63423
+average val loss = 1.63423
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 1.53841
+average val loss = 1.61485
+average val loss = 1.61485
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 1.52355
+average val loss = 1.64868
+average val loss = 1.64868
+min best val loss so far = 1.614847760097352
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=32, n_layers=7
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 1.78362
+average val loss = 1.71419
+average val loss = 1.71419
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 1.70058
+average val loss = 1.68023
+average val loss = 1.68023
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 1.66522
+average val loss = 1.64277
+average val loss = 1.64277
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 1.63863
+average val loss = 1.61450
+average val loss = 1.61450
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 1.61713
+average val loss = 1.60734
+average val loss = 1.60734
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 1.59866
+average val loss = 1.60751
+average val loss = 1.60751
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 1.57959
+average val loss = 1.59373
+average val loss = 1.59373
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 1.56504
+average val loss = 1.61411
+average val loss = 1.61411
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 1.54781
+average val loss = 1.60461
+average val loss = 1.60461
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 1.53123
+average val loss = 1.58500
+average val loss = 1.58500
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=64, n_layers=1
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 9.32023
+average val loss = 8.32633
+average val loss = 8.32633
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 7.97069
+average val loss = 8.51946
+average val loss = 8.51946
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 7.36691
+average val loss = 7.19830
+average val loss = 7.19830
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 6.86687
+average val loss = 6.77436
+average val loss = 6.77436
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 6.46851
+average val loss = 6.83862
+average val loss = 6.83862
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 6.06551
+average val loss = 8.43725
+average val loss = 8.43725
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 5.77890
+average val loss = 5.89210
+average val loss = 5.89210
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 5.48401
+average val loss = 6.18281
+average val loss = 6.18281
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 5.21995
+average val loss = 6.23019
+average val loss = 6.23019
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 4.95638
+average val loss = 6.33319
+average val loss = 6.33319
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=64, n_layers=4
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 1.80826
+average val loss = 1.69491
+average val loss = 1.69491
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 1.69933
+average val loss = 1.75414
+average val loss = 1.75414
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 1.65324
+average val loss = 1.64172
+average val loss = 1.64172
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 1.61582
+average val loss = 1.63337
+average val loss = 1.63337
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 1.58109
+average val loss = 1.62384
+average val loss = 1.62384
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 1.55024
+average val loss = 1.61918
+average val loss = 1.61918
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 1.52064
+average val loss = 1.62069
+average val loss = 1.62069
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 1.49388
+average val loss = 1.58655
+average val loss = 1.58655
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 1.46934
+average val loss = 1.59913
+average val loss = 1.59913
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 1.44415
+average val loss = 1.59564
+average val loss = 1.59564
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.005, lr_multiplier=0.95, hidden_dim=64, n_layers=7
+__________________________________________________
+Initial LR = 0.005
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.005
+average train loss = 1.79169
+average val loss = 1.71070
+average val loss = 1.71070
+Epoch 2/10
+current SGD learning rate = 0.00475
+average train loss = 1.70180
+average val loss = 1.65673
+average val loss = 1.65673
+Epoch 3/10
+current SGD learning rate = 0.0045125
+average train loss = 1.65708
+average val loss = 1.63590
+average val loss = 1.63590
+Epoch 4/10
+current SGD learning rate = 0.004286875
+average train loss = 1.62435
+average val loss = 1.63912
+average val loss = 1.63912
+Epoch 5/10
+current SGD learning rate = 0.00407253125
+average train loss = 1.59306
+average val loss = 1.61595
+average val loss = 1.61595
+Epoch 6/10
+current SGD learning rate = 0.0038689046874999995
+average train loss = 1.56381
+average val loss = 1.59815
+average val loss = 1.59815
+Epoch 7/10
+current SGD learning rate = 0.003675459453124999
+average train loss = 1.53615
+average val loss = 1.59883
+average val loss = 1.59883
+Epoch 8/10
+current SGD learning rate = 0.003491686480468749
+average train loss = 1.51307
+average val loss = 1.61166
+average val loss = 1.61166
+Epoch 9/10
+current SGD learning rate = 0.0033171021564453113
+average train loss = 1.48821
+average val loss = 1.62100
+average val loss = 1.62100
+Epoch 10/10
+current SGD learning rate = 0.0031512470486230455
+average train loss = 1.46920
+average val loss = 1.60151
+average val loss = 1.60151
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=16, n_layers=1
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 16.33380
+average val loss = 20.82941
+average val loss = 20.82941
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 15.08051
+average val loss = 16.44752
+average val loss = 16.44752
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 14.08099
+average val loss = 13.79917
+average val loss = 13.79917
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 13.29578
+average val loss = 12.43197
+average val loss = 12.43197
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 12.46409
+average val loss = 12.76729
+average val loss = 12.76729
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 11.73048
+average val loss = 13.37605
+average val loss = 13.37605
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 11.13784
+average val loss = 12.23200
+average val loss = 12.23200
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 10.53051
+average val loss = 14.64839
+average val loss = 14.64839
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 9.94568
+average val loss = 10.56721
+average val loss = 10.56721
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 9.34000
+average val loss = 13.25186
+average val loss = 13.25186
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=16, n_layers=4
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 1.80765
+average val loss = 1.75788
+average val loss = 1.75788
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 1.73254
+average val loss = 1.72106
+average val loss = 1.72106
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 1.70925
+average val loss = 1.69640
+average val loss = 1.69640
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 1.68314
+average val loss = 1.70937
+average val loss = 1.70937
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 1.66620
+average val loss = 1.67177
+average val loss = 1.67177
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 1.64878
+average val loss = 1.67819
+average val loss = 1.67819
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 1.63405
+average val loss = 1.65079
+average val loss = 1.65079
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 1.62094
+average val loss = 1.64742
+average val loss = 1.64742
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 1.60849
+average val loss = 1.64338
+average val loss = 1.64338
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 1.59504
+average val loss = 1.63092
+average val loss = 1.63092
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=16, n_layers=7
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 16
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 1.80161
+average val loss = 1.75657
+average val loss = 1.75657
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 1.74325
+average val loss = 1.86846
+average val loss = 1.86846
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 1.71919
+average val loss = 1.70476
+average val loss = 1.70476
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 1.69575
+average val loss = 1.71521
+average val loss = 1.71521
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 1.67542
+average val loss = 1.66490
+average val loss = 1.66490
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 1.65222
+average val loss = 1.65987
+average val loss = 1.65987
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 1.63553
+average val loss = 1.65007
+average val loss = 1.65007
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 1.62194
+average val loss = 1.64141
+average val loss = 1.64141
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 1.61171
+average val loss = 1.63456
+average val loss = 1.63456
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 1.60018
+average val loss = 1.64545
+average val loss = 1.64545
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=32, n_layers=1
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 16.63342
+average val loss = 15.79787
+average val loss = 15.79787
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 15.06059
+average val loss = 15.44840
+average val loss = 15.44840
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 14.21839
+average val loss = 12.74548
+average val loss = 12.74548
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 13.28477
+average val loss = 13.52058
+average val loss = 13.52058
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 12.39858
+average val loss = 15.32434
+average val loss = 15.32434
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 11.79341
+average val loss = 15.95284
+average val loss = 15.95284
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 11.15652
+average val loss = 13.02354
+average val loss = 13.02354
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 10.51403
+average val loss = 12.44498
+average val loss = 12.44498
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 9.95624
+average val loss = 10.27726
+average val loss = 10.27726
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 9.41100
+average val loss = 10.14214
+average val loss = 10.14214
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=32, n_layers=4
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 1.82421
+average val loss = 1.74025
+average val loss = 1.74025
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 1.73509
+average val loss = 1.71315
+average val loss = 1.71315
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 1.70644
+average val loss = 1.67989
+average val loss = 1.67989
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 1.67358
+average val loss = 1.65989
+average val loss = 1.65989
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 1.65304
+average val loss = 1.66698
+average val loss = 1.66698
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 1.63882
+average val loss = 1.66034
+average val loss = 1.66034
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 1.61218
+average val loss = 1.61485
+average val loss = 1.61485
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 1.59425
+average val loss = 1.66052
+average val loss = 1.66052
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 1.57543
+average val loss = 1.63855
+average val loss = 1.63855
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 1.56150
+average val loss = 1.62355
+average val loss = 1.62355
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=32, n_layers=7
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 32
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 1.78820
+average val loss = 1.76030
+average val loss = 1.76030
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 1.70941
+average val loss = 1.70669
+average val loss = 1.70669
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 1.68022
+average val loss = 1.66944
+average val loss = 1.66944
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 1.65757
+average val loss = 1.69853
+average val loss = 1.69853
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 1.63311
+average val loss = 1.65126
+average val loss = 1.65126
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 1.61426
+average val loss = 1.62689
+average val loss = 1.62689
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 1.60094
+average val loss = 1.66242
+average val loss = 1.66242
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 1.58364
+average val loss = 1.64958
+average val loss = 1.64958
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 1.56750
+average val loss = 1.63231
+average val loss = 1.63231
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 1.55078
+average val loss = 1.61439
+average val loss = 1.61439
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=64, n_layers=1
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 1
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 16.59304
+average val loss = 15.83740
+average val loss = 15.83740
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 15.21277
+average val loss = 14.32347
+average val loss = 14.32347
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 14.25384
+average val loss = 16.36767
+average val loss = 16.36767
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 13.24693
+average val loss = 12.59678
+average val loss = 12.59678
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 12.51244
+average val loss = 12.87728
+average val loss = 12.87728
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 11.84242
+average val loss = 10.67450
+average val loss = 10.67450
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 11.20319
+average val loss = 11.80983
+average val loss = 11.80983
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 10.57999
+average val loss = 11.28884
+average val loss = 11.28884
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 9.92756
+average val loss = 12.76375
+average val loss = 12.76375
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 9.49898
+average val loss = 9.57469
+average val loss = 9.57469
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=64, n_layers=4
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 4
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 1.84604
+average val loss = 1.76431
+average val loss = 1.76431
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 1.75112
+average val loss = 1.81257
+average val loss = 1.81257
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 1.71499
+average val loss = 1.67825
+average val loss = 1.67825
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 1.67968
+average val loss = 1.63417
+average val loss = 1.63417
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 1.65396
+average val loss = 1.68272
+average val loss = 1.68272
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 1.62098
+average val loss = 1.65262
+average val loss = 1.65262
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 1.59878
+average val loss = 1.63490
+average val loss = 1.63490
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 1.57800
+average val loss = 1.61765
+average val loss = 1.61765
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 1.54773
+average val loss = 1.61679
+average val loss = 1.61679
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 1.52671
+average val loss = 1.61140
+average val loss = 1.61140
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+Testing: lr=0.01, lr_multiplier=0.95, hidden_dim=64, n_layers=7
+__________________________________________________
+Initial LR = 0.01
+LR multipliter per epoch = 0.95000
+Number of layers = 7
+Dimensionality of hidden layers = 64
+__________________________________________________
+Epoch 1/10
+current SGD learning rate = 0.01
+average train loss = 1.81713
+average val loss = 1.76761
+average val loss = 1.76761
+Epoch 2/10
+current SGD learning rate = 0.0095
+average train loss = 1.72700
+average val loss = 1.68161
+average val loss = 1.68161
+Epoch 3/10
+current SGD learning rate = 0.009025
+average train loss = 1.68198
+average val loss = 1.67864
+average val loss = 1.67864
+Epoch 4/10
+current SGD learning rate = 0.00857375
+average train loss = 1.65538
+average val loss = 1.66998
+average val loss = 1.66998
+Epoch 5/10
+current SGD learning rate = 0.0081450625
+average train loss = 1.62875
+average val loss = 1.65765
+average val loss = 1.65765
+Epoch 6/10
+current SGD learning rate = 0.007737809374999999
+average train loss = 1.60736
+average val loss = 1.61686
+average val loss = 1.61686
+Epoch 7/10
+current SGD learning rate = 0.007350918906249998
+average train loss = 1.58713
+average val loss = 1.63053
+average val loss = 1.63053
+Epoch 8/10
+current SGD learning rate = 0.006983372960937498
+average train loss = 1.56629
+average val loss = 1.60846
+average val loss = 1.60846
+Epoch 9/10
+current SGD learning rate = 0.006634204312890623
+average train loss = 1.54303
+average val loss = 1.58816
+average val loss = 1.58816
+Epoch 10/10
+current SGD learning rate = 0.006302494097246091
+average train loss = 1.52072
+average val loss = 1.60484
+average val loss = 1.60484
+min best val loss so far = 1.585004256167804
+____________________________________________________________________________________________________
+best hyperparams are {'lr': 0.005, 'lr_multiplier': 0.95, 'hidden_dim': 32, 'n_layers': 7}
+VAL LOSS of best model is = 1.58500
+TEST LOSS of best model is = 1.60232
