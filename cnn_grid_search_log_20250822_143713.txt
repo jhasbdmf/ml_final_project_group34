@@ -1,0 +1,55 @@
+=== New Log Start ===
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=1, number of channels in first conv layer = 1
+multiplier of number of channels with each subsequent layer = 1.1
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 1
+Number of channels in conv layers = [1]
+__________________________________________________
+Epoch 1/2
+current SGD learning rate = 0.0015
+average train loss = 1.76280
+average val loss = 1.71861
+__________________________________________________
+Epoch 2/2
+current SGD learning rate = 0.001425
+average train loss = 1.68927
+average val loss = 1.69227
+__________________________________________________
+min best val loss so far = 1.6922734832766346
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=1, number of channels in first conv layer = 1
+multiplier of number of channels with each subsequent layer = 1.3
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 1
+Number of channels in conv layers = [1]
+__________________________________________________
+Epoch 1/2
+current SGD learning rate = 0.0015
+average train loss = 1.76480
+average val loss = 1.72841
+__________________________________________________
+Epoch 2/2
+current SGD learning rate = 0.001425
+average train loss = 1.68725
+average val loss = 1.68648
+__________________________________________________
+min best val loss so far = 1.6864762221596856
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=2, number of channels in first conv layer = 1
+multiplier of number of channels with each subsequent layer = 1.1
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 2
+Number of channels in conv layers = [1, 2]
+__________________________________________________
+Epoch 1/2
+current SGD learning rate = 0.0015

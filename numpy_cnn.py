@@ -335,7 +335,138 @@ def train_model_with_SGD (model,
         return model, train_loss_history, val_loss_history
     #return model, train_loss_history, val_loss_history
 
+def grid_search(hyperparameters: dict,
+                train_set: list,
+                validation_set: list,
+                n_epochs: int):
+    best_loss = float("inf")
+    best_params = {}
+    best_model = None
+
+    # extract hyperparameter combinations
+    #learning_rate = hyperparameters.get('lr', [])
+    #lr_multipliers = hyperparameters.get('lr_multiplier', [])
+    #hidden_dims = hyperparameters.get('hidden_dim', [])
+    #n_layers_list = hyperparameters.get('n_layers', [])
+
+    n_conv_layers = hyperparameters.get('n_conv_layers', [])
+    n_chan_mult = hyperparameters.get('n_chan_mult', [])
+
+
+    #hyperparameters_to_tune = {
+    #'n_conv_layers': [3, 5, 7],
+    #'n_chan_mult': [1.1, 1.3],
+
+    lr = SGD_LEARNING_RATE
+    lr_multiplier = LEARNING_RATE_MULTIPLIER_PER_EPOCH
+    n_channels = 1
+
+
+    for n_conv in n_conv_layers:
+        for chan_mult in n_chan_mult:
+            print ("_" * 100)
+            #print(f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
+            #        f"number of conv layers={n_conv}, number of channels in first conv layer = {n_channels}",
+            #        f"multiplier of number of channels with each subsequent layer = {chan_mult}")
+            print (f"Testing: lr={lr}, lr_multiplier={lr_multiplier}")
+            print (f"number of conv layers={n_conv}, number of channels in first conv layer = {n_channels}")
+            print (f"multiplier of number of channels with each subsequent layer = {chan_mult}")
+          
             
+            log_message ("_" * 100)
+            log_message (f"Testing: lr={lr}, lr_multiplier={lr_multiplier}")
+            log_message(f"number of conv layers={n_conv}, number of channels in first conv layer = {n_channels}")
+            log_message(f"multiplier of number of channels with each subsequent layer = {chan_mult}")
+          
+            # create a new model for each combination
+
+            model = CNN(in_dim = 24, out_dim=7, kernel_size = 3, n_channels = n_channels, n_chan_mult = chan_mult, n_conv_layers = n_conv)
+        
+            
+            #model = MLP(n_layers=n_layers, hidden_dim=hidden_dim)
+
+            # train the model and track validation loss history
+            trained_model, train_loss_history, val_loss_history = train_model_with_SGD(
+                model,
+                train_set,
+                validation_set,
+                lr=lr,
+                n_epochs=n_epochs,
+                sgd_lr_multiplier=lr_multiplier
+            )
+
+            # find the best validation loss
+            min_val_loss = min(val_loss_history)
+            #print (f"min_val_loss = {min_val_loss:.5f}")
+
+            # check if new combination is best
+            if min_val_loss < best_loss:
+                best_loss = min_val_loss
+                best_params = {
+                    'lr': lr,
+                    'lr_multiplier': lr_multiplier,
+                    'n_channels': n_channels,
+                    'n_chan_mult': chan_mult,
+                    'n_conv_layers': n_conv
+                }
+                best_model = trained_model
+                best_train_loss_history = train_loss_history
+                best_val_loss_history = val_loss_history
+            
+            print (f"min best val loss so far = {best_loss}")
+            log_message (f"min best val loss so far = {best_loss}")
+        
+
+    """
+    # iterate over all combinations
+    for lr in learning_rate:
+        for lr_multiplier in lr_multipliers:
+            for hidden_dim in hidden_dims:
+                for n_layers in n_layers_list:
+                    print ("_" * 100)
+                    print(f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
+                          f"hidden_dim={hidden_dim}, n_layers={n_layers}")
+                    
+                    log_message ("_" * 100)
+                    log_message (f"Testing: lr={lr}, lr_multiplier={lr_multiplier}, "
+                          f"hidden_dim={hidden_dim}, n_layers={n_layers}")
+
+                    # create a new model for each combination
+                    model = MLP(n_layers=n_layers, hidden_dim=hidden_dim)
+
+                    # train the model and track validation loss history
+                    trained_model, train_loss_history, val_loss_history = train_model_with_SGD(
+                        model,
+                        train_set,
+                        validation_set,
+                        lr=lr,
+                        n_epochs=n_epochs,
+                        sgd_lr_multiplier=lr_multiplier
+                    )
+
+                    # find the best validation loss
+                    min_val_loss = min(val_loss_history)
+                    #print (f"min_val_loss = {min_val_loss:.5f}")
+
+                    # check if new combination is best
+                    if min_val_loss < best_loss:
+                        best_loss = min_val_loss
+                        best_params = {
+                            'lr': lr,
+                            'lr_multiplier': lr_multiplier,
+                            'hidden_dim': hidden_dim,
+                            'n_layers': n_layers
+                        }
+                        best_model = trained_model
+                        best_train_loss_history = train_loss_history
+                        best_val_loss_history = val_loss_history
+                    
+                    print (f"min best val loss so far = {best_loss}")
+                    log_message (f"min best val loss so far = {best_loss}")
+              
+            """
+    return best_train_loss_history, best_val_loss_history, best_model, best_params, best_loss
+
        
             
 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -371,31 +502,66 @@ image_height = train_set[0][0].shape[0]
 cnn = CNN(in_dim = image_height)
 
 
-
-
-SGD_LEARNING_RATE = 15e-3
-LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.97
+SGD_LEARNING_RATE = 15e-4
+LEARNING_RATE_MULTIPLIER_PER_EPOCH = 0.95
 N_EPOCHS = 2
-mlp, train_loss_history_SGD, val_loss_history_SGD = train_model_with_SGD (cnn,
-                                            list(train_set),
-                                            list(val_set),
-                                            SGD_LEARNING_RATE,
-                                            N_EPOCHS,
-                                            LEARNING_RATE_MULTIPLIER_PER_EPOCH
-                                            )
-avg_test_loss = evaluate_model_on(mlp, list(test_set))
+
+hyperparameters_to_tune = {
+    'n_conv_layers': [1, 2],
+    'n_chan_mult': [1.1, 1.3],
+    #'lr': [0.0015],
+    #'hidden_dim': [16, 32, 64],
+    #'hidden_dim': [8],
+    #'n_layers': [1, 4, 7]
+    #'n_layers': [2]
+    }
+
+
+train_loss_history, val_loss_history, best_model, best_params, best_loss = grid_search(
+        hyperparameters_to_tune,
+        list(train_set),
+        list(val_set),
+        n_epochs=N_EPOCHS
+    )
+
+
+
+
+#cnn_trained, train_loss_history, val_loss_history = train_model_with_SGD (cnn,
+#                                            list(train_set),
+#                                            list(val_set),
+#                                            SGD_LEARNING_RATE,
+#                                            N_EPOCHS,
+#                                            LEARNING_RATE_MULTIPLIER_PER_EPOCH
+#                                            )
+#avg_test_loss = evaluate_model_on(cnn_trained, list(test_set))
+#print (f"TEST LOSS = {avg_test_loss:.5f}")
+#log_message (f"TEST LOSS = {avg_test_loss:.5f}")
+#print ("_" * 50)
+#log_message ("_" * 50)
+
+avg_test_loss = evaluate_model_on(best_model, list(test_set))
 print (f"TEST LOSS = {avg_test_loss:.5f}")
 log_message (f"TEST LOSS = {avg_test_loss:.5f}")
 print ("_" * 50)
 log_message ("_" * 50)
 
+print (f"best hyperparams are {best_params}")
+print (f"VAL LOSS of best model is = {best_loss:.5f}")
+print (f"TEST LOSS of best model is = {avg_test_loss:.5f}")
+
+log_message ("_" * 100)
+log_message (f"best hyperparams are {best_params}")
+log_message (f"VAL LOSS of best model is = {best_loss:.5f}")
+log_message (f"TEST LOSS of best model is = {avg_test_loss:.5f}")
+
 # Indices
-indices1 = range(len(train_loss_history_SGD))  
-indices2 = range(len(val_loss_history_SGD)) 
+indices1 = range(len(train_loss_history))  
+indices2 = range(len(val_loss_history)) 
 
 # Plot both
-plt.plot(indices1, train_loss_history_SGD, marker='o', linestyle='-', label='train loss hist')
-plt.plot(indices2, val_loss_history_SGD, marker='s', linestyle='--', label='val loss hist')
+plt.plot(indices1, train_loss_history, marker='o', linestyle='-', label='train loss hist')
+plt.plot(indices2, val_loss_history, marker='s', linestyle='--', label='val loss hist')
 
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
