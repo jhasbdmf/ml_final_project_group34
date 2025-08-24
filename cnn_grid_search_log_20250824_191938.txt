@@ -1,0 +1,223 @@
+=== New Log Start ===
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=1, number of channels in first conv layer = 4
+multiplier of number of channels with each subsequent layer = 1.1
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 1
+Number of channels in conv layers = [4]
+__________________________________________________
+Epoch 1/5
+current SGD learning rate = 0.0015
+average train loss = 1.69997
+average val loss = 1.64042
+__________________________________________________
+Epoch 2/5
+current SGD learning rate = 0.001425
+average train loss = 1.60873
+average val loss = 1.61231
+__________________________________________________
+Epoch 3/5
+current SGD learning rate = 0.00135375
+average train loss = 1.56385
+average val loss = 1.60049
+__________________________________________________
+Epoch 4/5
+current SGD learning rate = 0.0012860624999999999
+average train loss = 1.52690
+average val loss = 1.58244
+__________________________________________________
+Epoch 5/5
+current SGD learning rate = 0.0012217593749999998
+average train loss = 1.49880
+average val loss = 1.56355
+__________________________________________________
+min best val loss so far = 1.563552860473782
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=1, number of channels in first conv layer = 4
+multiplier of number of channels with each subsequent layer = 1.2
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 1
+Number of channels in conv layers = [4]
+__________________________________________________
+Epoch 1/5
+current SGD learning rate = 0.0015
+average train loss = 1.69787
+average val loss = 1.63531
+__________________________________________________
+Epoch 2/5
+current SGD learning rate = 0.001425
+average train loss = 1.60756
+average val loss = 1.60054
+__________________________________________________
+Epoch 3/5
+current SGD learning rate = 0.00135375
+average train loss = 1.56421
+average val loss = 1.60868
+__________________________________________________
+Epoch 4/5
+current SGD learning rate = 0.0012860624999999999
+average train loss = 1.53326
+average val loss = 1.60162
+__________________________________________________
+Epoch 5/5
+current SGD learning rate = 0.0012217593749999998
+average train loss = 1.50996
+average val loss = 1.59211
+__________________________________________________
+min best val loss so far = 1.563552860473782
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=3, number of channels in first conv layer = 4
+multiplier of number of channels with each subsequent layer = 1.1
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 3
+Number of channels in conv layers = [4, 5, 6]
+__________________________________________________
+Epoch 1/5
+current SGD learning rate = 0.0015
+average train loss = 1.70070
+average val loss = 1.65061
+__________________________________________________
+Epoch 2/5
+current SGD learning rate = 0.001425
+average train loss = 1.60956
+average val loss = 1.62207
+__________________________________________________
+Epoch 3/5
+current SGD learning rate = 0.00135375
+average train loss = 1.57285
+average val loss = 1.57553
+__________________________________________________
+Epoch 4/5
+current SGD learning rate = 0.0012860624999999999
+average train loss = 1.52694
+average val loss = 1.56444
+__________________________________________________
+Epoch 5/5
+current SGD learning rate = 0.0012217593749999998
+average train loss = 1.49411
+average val loss = 1.56001
+__________________________________________________
+min best val loss so far = 1.5600081064352946
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=3, number of channels in first conv layer = 4
+multiplier of number of channels with each subsequent layer = 1.2
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 3
+Number of channels in conv layers = [4, 5, 6]
+__________________________________________________
+Epoch 1/5
+current SGD learning rate = 0.0015
+average train loss = 1.71074
+average val loss = 1.63872
+__________________________________________________
+Epoch 2/5
+current SGD learning rate = 0.001425
+average train loss = 1.61738
+average val loss = 1.60951
+__________________________________________________
+Epoch 3/5
+current SGD learning rate = 0.00135375
+average train loss = 1.56791
+average val loss = 1.57990
+__________________________________________________
+Epoch 4/5
+current SGD learning rate = 0.0012860624999999999
+average train loss = 1.53361
+average val loss = 1.57535
+__________________________________________________
+Epoch 5/5
+current SGD learning rate = 0.0012217593749999998
+average train loss = 1.50113
+average val loss = 1.56159
+__________________________________________________
+min best val loss so far = 1.5600081064352946
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=6, number of channels in first conv layer = 4
+multiplier of number of channels with each subsequent layer = 1.1
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 6
+Number of channels in conv layers = [4, 5, 6, 7, 8, 9]
+__________________________________________________
+Epoch 1/5
+current SGD learning rate = 0.0015
+average train loss = 1.76944
+average val loss = 1.71426
+__________________________________________________
+Epoch 2/5
+current SGD learning rate = 0.001425
+average train loss = 1.72559
+average val loss = 1.70689
+__________________________________________________
+Epoch 3/5
+current SGD learning rate = 0.00135375
+average train loss = 1.69905
+average val loss = 1.67376
+__________________________________________________
+Epoch 4/5
+current SGD learning rate = 0.0012860624999999999
+average train loss = 1.67115
+average val loss = 1.64586
+__________________________________________________
+Epoch 5/5
+current SGD learning rate = 0.0012217593749999998
+average train loss = 1.66691
+average val loss = 1.68072
+__________________________________________________
+min best val loss so far = 1.5600081064352946
+____________________________________________________________________________________________________
+Testing: lr=0.0015, lr_multiplier=0.95
+number of conv layers=6, number of channels in first conv layer = 4
+multiplier of number of channels with each subsequent layer = 1.2
+__________________________________________________
+Initial LR = 0.0015
+LR multipliter per epoch = 0.95000
+Number of conv layers = 6
+Number of channels in conv layers = [4, 5, 6, 8, 10, 12]
+__________________________________________________
+Epoch 1/5
+current SGD learning rate = 0.0015
+average train loss = 1.76790
+average val loss = 1.72668
+__________________________________________________
+Epoch 2/5
+current SGD learning rate = 0.001425
+average train loss = 1.71001
+average val loss = 1.68785
+__________________________________________________
+Epoch 3/5
+current SGD learning rate = 0.00135375
+average train loss = 1.68163
+average val loss = 1.64574
+__________________________________________________
+Epoch 4/5
+current SGD learning rate = 0.0012860624999999999
+average train loss = 1.64656
+average val loss = 1.64485
+__________________________________________________
+Epoch 5/5
+current SGD learning rate = 0.0012217593749999998
+average train loss = 1.64443
+average val loss = 1.64074
+__________________________________________________
+min best val loss so far = 1.5600081064352946
+TEST LOSS = 1.55773
+__________________________________________________
+____________________________________________________________________________________________________
+best hyperparams are {'lr': 0.0015, 'lr_multiplier': 0.95, 'n_channels': 4, 'n_chan_mult': 1.1, 'n_conv_layers': 3}
+VAL LOSS of best model is = 1.56001
+TEST LOSS of best model is = 1.55773
